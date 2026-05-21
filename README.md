@@ -31,10 +31,10 @@
         
         .add-btn {
             background: #2ecc71;
-            color: white;
+            color: rgb(37, 29, 29);
             border: none;
-            padding: 8px 15px;
-            border-radius: 4px;
+            padding: 15px 15px;
+            border-radius: 20px;
             cursor: pointer;
             font-weight: bold;
             transition: background 0.3s;
@@ -51,11 +51,11 @@
         
         .calculator-table th {
             background: #3498db;
-            color: white;
-            padding: 12px 8px;
+            color: rgba(0, 0, 0, 0.651);
+            padding: 10px;
             text-align: center;
             font-weight: bold;
-            border-right: 1px solid #2980b9;
+            border-right: 3px solid #2980b9;
         }
         
         .calculator-table th:last-child {
@@ -63,9 +63,9 @@
         }
         
         .calculator-table td {
-            padding: 10px 8px;
+            padding: 8px 10px;
             text-align: center;
-            border-bottom: 1px solid #eee;
+            border-bottom: 2px solid #c5c0c0;
         }
         
         .calculator-table tr:nth-child(even) {
@@ -75,8 +75,8 @@
         .calculator-table input {
             width: 75%;
             padding: 6px 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            border: 3px solid #ddd;
+            border-radius: 10px;
             text-align: center;
             font-size: 0.9em;
         }
@@ -97,8 +97,8 @@
             background: #e74c3c;
             color: white;
             border: none;
-            padding: 5px 10px;
-            border-radius: 3px;
+            padding: 5px 15px;
+            border-radius: 20px;
             cursor: pointer;
             font-size: 0.8em;
         }
@@ -109,14 +109,14 @@
         
         .instructions {
             background: #f9f9f9;
-            padding: 15px 20px;
-            border-top: 1px solid #eee;
+            padding: 25px 25px;
+            border-top: 15px solid #eee;
         }
         
         .instructions h3 {
             margin-top: 0;
             color: #2c3e50;
-            font-size: 1.2em;
+            font-size: 1.5em;
         }
         
         .instructions ul {
@@ -126,7 +126,7 @@
         
         .instructions li {
             margin-bottom: 8px;
-            line-height: 1.4;
+            line-height: 1.5;
         }
         
         .formula {
@@ -339,4 +339,3 @@
             });
         };
     </script>
-</body>
