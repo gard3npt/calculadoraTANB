@@ -31,22 +31,12 @@ footer{
     bottom:0;
     left:0;
     width:100%;
-    height:50px;
-
-    background:rgba(0,0,0,0.85); /* mais escuro */
-
-    backdrop-filter:blur(10px);
-    color:#ffffff;
-
+    height:60px;
+    background-color:#222;
+    color:white;
     display:flex;
     align-items:center;
     justify-content:center;
-
-    font-size:0.9rem;
-
-    border-top:1px solid rgba(255,255,255,0.15);
-
-    z-index:1000;
 }
 
 .tanb-calculator{
@@ -227,7 +217,9 @@ footer{
     }
 }
 
-    </style>
+    
+.calculator-table input::placeholder{color:#cbd5e1;font-style:italic;opacity:1;}
+</style>
 </head>
 <body>
     <div class="tanb-calculator">
@@ -253,9 +245,9 @@ footer{
             <tbody>
                 <tr>
                     <td>1</td>
-                    <td><input type="number" value="" min="0" step="any" oninput="calculateRow(this)"></td>
-                    <td><input type="number" value="" min="0" step="any" oninput="calculateRow(this)"></td>
-                    <td><input type="number" min="1" step="1" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g,''); calculateRow(this)">
+                    <td><input type="text" placeholder="10 000 €" inputmode="decimal" min="0" step="0.01" oninput="calculateRow(this)" onfocus="editMoney(this)" onblur="formatMoney(this)"></td>
+                    <td><input type="number" placeholder="%" min="0" step="0.01" oninput="calculateRow(this)"></td>
+                    <td><input type="number" placeholder="Dias" min="1" step="1" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g,''); calculateRow(this)">
                     <td class="result-cell">0.00 €</td>
                     <td class="result-cell">0.00 €</td>
                     <td class="result-cell">0.00 €</td>
@@ -264,9 +256,9 @@ footer{
                 </tr>
                 <tr>
                     <td>2</td>
-                    <td><input type="number" value="" min="0" step="any" oninput="calculateRow(this)"></td>
-                    <td><input type="number" value="" min="0" step="any" oninput="calculateRow(this)"></td>
-                    <td><input type="number" min="1" step="1" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g,''); calculateRow(this)">
+                    <td><input type="text" placeholder="10 000 €" inputmode="decimal" min="0" step="0.01" oninput="calculateRow(this)" onfocus="editMoney(this)" onblur="formatMoney(this)"></td>
+                    <td><input type="number" placeholder="%" min="0" step="0.01" oninput="calculateRow(this)" onfocus="editMoney(this)" onblur="formatMoney(this)"></td>
+                    <td><input type="number" placeholder="Dias" min="1" step="1" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g,''); calculateRow(this)">
                     <td class="result-cell">0.00 €</td>
                     <td class="result-cell">0.00 €</td>
                     <td class="result-cell">0.00 €</td>
@@ -275,9 +267,9 @@ footer{
                 </tr>
                 <tr>
                     <td>3</td>
-                    <td><input type="number" value="" min="0" step="any" oninput="calculateRow(this)"></td>
-                    <td><input type="number" value="" min="0" step="any" oninput="calculateRow(this)"></td>
-                    <td><input type="number" min="1" step="1" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g,''); calculateRow(this)">
+                    <td><input type="text" placeholder="10 000 €" inputmode="decimal" min="0" step="0.01" oninput="calculateRow(this)" onfocus="editMoney(this)" onblur="formatMoney(this)"></td>
+                    <td><input type="number" placeholder="%" min="0" step="0.01" oninput="calculateRow(this)"></td>
+                    <td><input type="number" placeholder="Dias" min="1" step="1" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g,''); calculateRow(this)">
                     <td class="result-cell">0.00 €</td>
                     <td class="result-cell">0.00 €</td>
                     <td class="result-cell">0.00 €</td>
@@ -286,9 +278,9 @@ footer{
                 </tr>
                 <tr>
                     <td>4</td>
-                    <td><input type="number" value="" min="0" step="any" oninput="calculateRow(this)"></td>
-                    <td><input type="number" value="" min="0" step="any" oninput="calculateRow(this)"></td>
-                    <td><input type="number" min="1" step="1" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g,''); calculateRow(this)">
+                    <td><input type="text" placeholder="10 000 €" inputmode="decimal" min="0" step="0.01" oninput="calculateRow(this)" onfocus="editMoney(this)" onblur="formatMoney(this)"></td>
+                    <td><input type="number" placeholder="%" min="0" step="0.01" oninput="calculateRow(this)"></td>
+                    <td><input type="number" placeholder="Dias" min="1" step="1" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g,''); calculateRow(this)">
                     <td class="result-cell">0.00 €</td>
                     <td class="result-cell">0.00 €</td>
                     <td class="result-cell">0.00 €</td>
@@ -326,7 +318,7 @@ footer{
         function calculateRow(inputElement) {
     const row = inputElement.closest('tr');
     
-    const montante = parseFloat(row.cells[1].querySelector('input').value) || 0;
+    const mtxt=row.cells[1].querySelector('input').value.replace(/€/g,'').replace(/\s/g,'').replace(',','.'); const montante=parseFloat(mtxt)||0;
     const tanb = parseFloat(row.cells[2].querySelector('input').value) || 0;
     const dias = parseInt(row.cells[3].querySelector('input').value) || 0;
     
@@ -364,9 +356,9 @@ footer{
             const newRow = document.createElement('tr');
             newRow.innerHTML = `
     <td>${rowCount + 1}</td>
-    <td><input type="number" value="" min="0" step="any" oninput="calculateRow(this)"></td>
-    <td><input type="number" value="" min="0" step="any" oninput="calculateRow(this)"></td>
-    <td><input type="number" min="1" step="1" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g,''); calculateRow(this)">
+    <td><input type="text" placeholder="10 000 €" inputmode="decimal" min="0" step="0.01" oninput="calculateRow(this)" onfocus="editMoney(this)" onblur="formatMoney(this)"></td>
+    <td><input type="number" placeholder="%" min="0" step="0.01" oninput="calculateRow(this)"></td>
+    <td><input type="number" placeholder="Dias" min="1" step="1" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g,''); calculateRow(this)">
     <td class="result-cell">0.00 €</td>
     <td class="result-cell">0.00 €</td>
     <td class="result-cell">0.00 €</td>
@@ -402,18 +394,38 @@ footer{
         
         // Initialize calculations for all rows
 
-        window.onload = function() {
-            const inputs = document.querySelectorAll('input');
-            inputs.forEach(input => {
-                calculateRow(input);
-            });
-        };
+        
+function formatMoney(input){
+ let v=input.value.replace(/€/g,'').replace(/\s/g,'').replace(',','.');
+ if(v==='') return;
+ let n=parseFloat(v); if(isNaN(n)) return;
+ input.value=n.toLocaleString('pt-PT',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
+ calculateRow(input);
+}
+function editMoney(input){
+ input.value=input.value.replace(/€/g,'').replace(/\s/g,'').replace(',','.');
+}
+
+window.onload=function(){
+document.querySelectorAll('#calculator-table input').forEach(i=>calculateRow(i));
+document.addEventListener('keydown',function(e){
+if(e.key==='ArrowUp'||e.key==='ArrowDown'){e.preventDefault();return;}
+if(e.key!=='Enter')return;
+const input=e.target;if(input.tagName!=='INPUT')return;
+e.preventDefault();
+const row=input.closest('tr');const inputs=[...row.querySelectorAll('input')];let idx=inputs.indexOf(input);
+if(idx<inputs.length-1){inputs[idx+1].focus();inputs[idx+1].select();return;}
+let next=row.nextElementSibling;
+if(!next){addRow();next=row.nextElementSibling;}
+if(next){let f=next.querySelector('input');f.focus();f.select();}
+});
+};
 </script>
 
 <!-- Rodapé -->
 
 <footer>
-    © 2026 Agajota | Helder Jardim | V15 10.06.2026
+  © 2026 Agajota | Helder Jardim | Versão V17 - 04.07.2026
 </footer>
 
 </body>
