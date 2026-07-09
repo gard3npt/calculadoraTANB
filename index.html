@@ -438,7 +438,7 @@ footer{
 @media print {
     @page {
         size: landscape; 
-        margin: 15mm 15mm 20mm 15mm; /* Margem inferior ligeiramente superior para o rodapé */
+        margin: 15mm 15mm 20mm 15mm; 
     }
 
     body {
@@ -506,7 +506,7 @@ footer{
         display: table !important;
     }
 
-    /* DISTRIBUIÇÃO DAS 8 COLUNAS FINAIS (SOMA 100%) */
+    /* DISTRIBUIÇÃO DAS COLUNAS (SOMA 100%) */
     .calculator-table th:nth-child(1), .calculator-table td:nth-child(1) { width: 4% !important; text-align: center !important; display: table-cell !important;}   
     .calculator-table th:nth-child(2), .calculator-table td:nth-child(2) { width: 16% !important; text-align: right !important; display: table-cell !important;}  
     .calculator-table th:nth-child(3), .calculator-table td:nth-child(3) { width: 9% !important; text-align: center !important; display: table-cell !important;}   
@@ -705,7 +705,7 @@ footer{
         </div>
     </div>
 
-    <div class="print-only-footer">
+    <div class="print-only-footer" id="dynamic-print-footer">
         © 2026 Agajota | Helder Jardim | Versão V19 - 07.07.2026
     </div>
         
@@ -917,6 +917,7 @@ function editPercent(input){
  input.select();
 }
 
+/* Nova função de impressão controlada com data/hora em tempo real */
 function printTable() {
     const rows = document.querySelectorAll('#calculator-table tbody tr');
     
@@ -929,6 +930,21 @@ function printTable() {
         }
     });
 
+    // CAPTURA A DATA E HORA ATUAIS NO MOMENTO EXATO DO CLIQUE
+    const agora = new Date();
+    const dia = String(agora.getDate()).padStart(2, '0');
+    const mes = String(agora.getMonth() + 1).padStart(2, '0');
+    const ano = agora.getFullYear();
+    const horas = String(agora.getHours()).padStart(2, '0');
+    const minutos = String(agora.getMinutes()).padStart(2, '0');
+    
+    const dataHoraFormatada = `${dia}/${mes}/${ano}, ${horas}:${minutos}`;
+
+    // INJETA DINAMICAMENTE NO TEXTO DO RODAPÉ DE IMPRESSÃO
+    const footerPrint = document.getElementById('dynamic-print-footer');
+    footerPrint.innerHTML = `© 2026 Agajota | Impresso: ${dataHoraFormatada}`;
+
+    // Executa a ação de impressão
     window.print();
 }
 
@@ -954,7 +970,7 @@ if(next){let f=next.querySelector('input');f.focus();f.select();}
 </script>
 
 <footer>
-  © 2026 Agajota | V20 - 09.07.2026
+  © 2026 Agajota | Helder Jardim | Versão V19 - 07.07.2026
 </footer>
 
 </body>
