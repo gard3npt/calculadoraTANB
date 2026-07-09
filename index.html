@@ -26,6 +26,11 @@ body{
     color:#1e293b;
 }
 
+/* Elementos exclusivos para impressão (ocultos no ecrã) */
+.print-only-header, .print-only-footer {
+    display: none;
+}
+
 /* Remove as setas dos inputs do tipo number */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -60,7 +65,7 @@ footer{
         0 20px 50px rgba(0,0,0,.08);
 }
 
-.calculator-header{
+.calculator-header {
     background:linear-gradient(135deg,#2563eb,#06b6d4);
     padding:30px;
     display:flex;
@@ -74,6 +79,36 @@ footer{
     font-weight:700;
 }
 
+.header-actions-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Botão Imprimir - Apenas Ícone à Esquerda do Adicionar Linha */
+.print-title-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: 0.3s;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    width: 50px;
+}
+
+.print-title-btn:hover {
+    background: rgba(255, 255, 255, 0.35);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
 .add-btn{
     background: linear-gradient(135deg, #3c5894, #3383df);
     color: white;
@@ -84,14 +119,17 @@ footer{
     cursor: pointer;
     transition: 0.3s;
     white-space: nowrap;
+    height: 50px;
+    display: inline-flex;
+    align-items: center;
 }
 
 .add-btn:hover{
-    transform:translateY(3px);
+    transform:translateY(-2px);
     box-shadow: 0 10px 25px rgba(18, 60, 151, 0.4);
 }
 
-/* TABELA COM LAYOUT FIXO RIGOROSO */
+/* TABELA COM LAYOUT FIXO NO ECRÃ */
 .calculator-table{
     width:100%;
     border-collapse:collapse;
@@ -105,7 +143,7 @@ footer{
     white-space: nowrap;       
 }
 
-/* TÍTULOS PERMITEM QUEBRA DE LINHA PARA EXIBIR TEXTO INTEIRO */
+/* TÍTULOS PERMITEM QUEBRA DE LINHA */
 .calculator-table th{
     background:#f8fafc;
     color:#475569;
@@ -119,7 +157,7 @@ footer{
     line-height: 1.3;
 }
 
-/* LARGURAS FIXAS E PROPORCIONAIS PARA AS COLUNAS DE DADOS DO MEIO */
+/* LARGURAS FIXAS E PROPORCIONAIS PARA AS COLUNAS NO ECRÃ */
 .calculator-table th:nth-child(2), .calculator-table td:nth-child(2),
 .calculator-table th:nth-child(5), .calculator-table td:nth-child(5),
 .calculator-table th:nth-child(6), .calculator-table td:nth-child(6),
@@ -140,8 +178,6 @@ footer{
     vertical-align: middle;
     font-weight: 600;
     width: 50px;
-    max-width: 50px;
-    min-width: 50px;
 }
 
 /* COLUNA DE AÇÃO DE 90PX */
@@ -151,8 +187,6 @@ footer{
     vertical-align: middle;
     font-weight: 600;
     width: 90px; 
-    max-width: 90px;
-    min-width: 90px;
 }
 
 .calculator-table tr:hover{
@@ -251,7 +285,7 @@ footer{
     max-width: 76px;
 }
 
-/* Ajuste específico para o Mostrar Total */
+/* Ajuste específico para os botões da barra de ações */
 .buttons-container .toggle-total-btn {
     height: 48px;
     width: 140px;
@@ -349,7 +383,10 @@ footer{
         font-size:1.4rem;
     }
 
-    /* Força a tabela a manter uma estrutura horizontal com scrollbar fluida */
+    .header-actions-right {
+        justify-content: center;
+    }
+
     .tanb-calculator {
         overflow-x: auto;
     }
@@ -357,10 +394,9 @@ footer{
     .calculator-table{
         display:table;
         table-layout: fixed;
-        min-width: 1000px; /* Garante espaço para não esmagar as colunas */
+        min-width: 1000px; 
     }
 
-    /* Mantém a disposição idêntica dos botões e impede quebras verticais */
     .buttons-container {
         flex-direction: row !important;
         gap: 20px !important;
@@ -379,10 +415,9 @@ footer{
         margin-top: 0 !important;
     }
 
-    /* Garante visibilidade e conforto total ao digitar valores em ecrãs mobile */
     .calculator-table input {
         padding: 8px 4px;
-        font-size: 16px; /* Tamanho otimizado para evitar zoom excessivo no iOS/Android e manter legibilidade */
+        font-size: 16px; 
     }
 
     .calculator-table input:focus{
@@ -396,13 +431,175 @@ footer{
 }
 
 .calculator-table input::placeholder{color:#cbd5e1;font-style:italic;opacity:1;}
+
+/* ------------------------------------------------------------------------- */
+/* REGRAS EXCLUSIVAS PARA IMPRESSÃO PERFEITA (PAISAGEM, NO-CUT & RODAPÉ NO FIM) */
+/* ------------------------------------------------------------------------- */
+@media print {
+    @page {
+        size: landscape; 
+        margin: 15mm 15mm 20mm 15mm; /* Margem inferior ligeiramente superior para o rodapé */
+    }
+
+    body {
+        background: white !important;
+        color: #000 !important;
+        padding: 0 !important;
+    }
+
+    /* Cabeçalho estruturado na folha */
+    .print-only-header {
+        display: flex !important;
+        justify-content: space-between;
+        align-items: flex-end;
+        width: 100%;
+        padding-bottom: 12px;
+        margin-bottom: 25px;
+        border-bottom: 2px solid #0f172a;
+    }
+    .print-only-header h1 {
+        font-size: 20px;
+        font-weight: 700;
+        color: #0f172a;
+    }
+    .print-only-header p {
+        font-size: 12px;
+        color: #475569;
+        font-style: italic;
+    }
+
+    /* FIXAÇÃO ABSOLUTA DO RODAPÉ NO FIM DA FOLHA IMPRESSA */
+    .print-only-footer {
+        display: block !important;
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        text-align: center !important;
+        padding-top: 12px;
+        padding-bottom: 5px;
+        border-top: 1px dashed #cbd5e1;
+        font-size: 11px;
+        color: #64748b;
+        background: white !important;
+    }
+
+    .tanb-calculator {
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+
+    /* Oculta secções dinâmicas */
+    .calculator-header, 
+    .action-row, 
+    .instructions, 
+    footer {
+        display: none !important;
+    }
+
+    /* Tabela horizontal sem cortes */
+    .calculator-table {
+        table-layout: fixed !important; 
+        width: 100% !important;
+        display: table !important;
+    }
+
+    /* DISTRIBUIÇÃO DAS 8 COLUNAS FINAIS (SOMA 100%) */
+    .calculator-table th:nth-child(1), .calculator-table td:nth-child(1) { width: 4% !important; text-align: center !important; display: table-cell !important;}   
+    .calculator-table th:nth-child(2), .calculator-table td:nth-child(2) { width: 16% !important; text-align: right !important; display: table-cell !important;}  
+    .calculator-table th:nth-child(3), .calculator-table td:nth-child(3) { width: 9% !important; text-align: center !important; display: table-cell !important;}   
+    .calculator-table th:nth-child(4), .calculator-table td:nth-child(4) { width: 8% !important; text-align: center !important; display: table-cell !important;}   
+    .calculator-table th:nth-child(5), .calculator-table td:nth-child(5) { width: 16% !important; text-align: right !important; display: table-cell !important;}  
+    .calculator-table th:nth-child(6), .calculator-table td:nth-child(6) { width: 15% !important; text-align: right !important; display: table-cell !important;}  
+    .calculator-table th:nth-child(7), .calculator-table td:nth-child(7) { width: 16% !important; text-align: right !important; display: table-cell !important;}  
+    .calculator-table th:nth-child(8), .calculator-table td:nth-child(8) { width: 16% !important; text-align: right !important; display: table-cell !important;}  
+
+    /* Ocultação total da coluna de Ação */
+    .calculator-table th:last-child, 
+    .calculator-table td:last-child {
+        display: none !important;
+        width: 0% !important;
+    }
+
+    .calculator-table th {
+        padding: 10px 6px !important;
+        font-size: 11px !important;
+        background: #f1f5f9 !important;
+        line-height: 1.3 !important;
+        border-bottom: 2px solid #000 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        display: table-cell !important;
+    }
+
+    .calculator-table td {
+        padding: 10px 6px !important;
+        font-size: 11px !important;
+        white-space: nowrap !important;
+        border-bottom: 1px solid #cbd5e1 !important;
+        display: table-cell !important;
+    }
+
+    .calculator-table tbody tr.empty-print-row {
+        display: none !important;
+    }
+
+    .calculator-table input {
+        border: none !important;
+        background: transparent !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        color: #000 !important;
+        font-weight: 700 !important;
+        font-size: 11px !important;
+        text-align: center !important;
+    }
+    
+    .calculator-table td:nth-child(2) input { text-align: right !important; }
+    .calculator-table td:nth-child(3) input { text-align: center !important; }
+    .calculator-table td:nth-child(4) input { text-align: center !important; }
+
+    .total-hidden {
+        display: table-cell !important;
+    }
+    
+    .total-row {
+        background: #f8fafc !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        display: table-row !important;
+    }
+    
+    .total-row td {
+        font-size: 11px !important;
+        padding: 10px 6px !important;
+        border-top: 2px solid #000 !important;
+        border-bottom: 2px solid #000 !important;
+        display: table-cell !important;
+    }
+    
+    .total-row td:nth-child(2) { text-align: right !important; }
+    .total-row td:nth-child(5), .total-row td:nth-child(6), 
+    .total-row td:nth-child(7), .total-row td:nth-child(8) { text-align: right !important; }
+}
 </style>
 </head>
 <body>
+
+    <div class="print-only-header">
+        <h1>Simulador de Depósitos a Prazo (TANB)</h1>
+        <p>Relatório de Simulações Financeiras</p>
+    </div>
+
     <div class="tanb-calculator">
         <div class="calculator-header">
             <h2 class="calculator-title">💰 Simulador de Depósitos a Prazo (TANB)</h2>
-            <button class="add-btn" onclick="addRow()">Adicionar linha de investimento</button>
+            <div class="header-actions-right">
+                <button class="print-title-btn" onclick="printTable()" title="Imprimir Resultados">🖨️</button>
+                <button class="add-btn" onclick="addRow()">Adicionar linha de investimento</button>
+            </div>
         </div>
         
         <table class="calculator-table" id="calculator-table">
@@ -501,11 +698,15 @@ footer{
                 <li><strong>Dias:</strong> Insira o período do investimento em dias;</li>
                 <li><strong>Juros Brutos (€):</strong> Valor total calculado sem a retenção na fonte;</li>
                 <li><strong>Retenção na fonte (€):</strong> Em conformidade com a regulamentação fiscal portuguesa, a taxa de retenção é de 28%;</li>
-                <li><strong>Juros liquidos (€):</strong> Lucro calculado automaticamente referente aos dias colocados já com retenção na fonte;</li>
-                <li><strong>Juro liquido por dia (€):</strong> Lucro calculado automaticamente como valor ganho por dia já com a retenção na fonte.</li>
+                <li><strong>Juros Líquidos (€):</strong> Lucro calculado automaticamente referente aos dias colocados já com retenção na fonte;</li>
+                <li><strong>Juro Líquido por dia (€):</strong> Lucro calculado automaticamente como valor ganho por dia já com a retenção na fonte.</li>
                 <li><strong>Ação:</strong> Eliminar a linha de simulação.</li>
             </ul>
         </div>
+    </div>
+
+    <div class="print-only-footer">
+        © 2026 Agajota | Helder Jardim | Versão V19 - 07.07.2026
     </div>
         
     <script>
@@ -716,6 +917,21 @@ function editPercent(input){
  input.select();
 }
 
+function printTable() {
+    const rows = document.querySelectorAll('#calculator-table tbody tr');
+    
+    rows.forEach(row => {
+        const jurosBrutos = row.cells[4].textContent.trim();
+        if (jurosBrutos === "---") {
+            row.classList.add('empty-print-row');
+        } else {
+            row.classList.remove('empty-print-row');
+        }
+    });
+
+    window.print();
+}
+
 window.onload=function(){
 document.querySelectorAll('#calculator-table tbody input').forEach(i=>calculateRow(i));
 updateTotals();
@@ -738,7 +954,7 @@ if(next){let f=next.querySelector('input');f.focus();f.select();}
 </script>
 
 <footer>
-  © 2026 Agajota | Helder Jardim | Versão V19 - 07.07.2026
+  © 2026 Agajota | V20 - 09.07.2026
 </footer>
 
 </body>
