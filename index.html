@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Simulador de Depósitos (TANB)</title>
+    <title>Simulador de Depósitos (TANB e Compostos)</title>
 
     <link rel="icon"
           href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💰</text></svg>">
 
     <style>
-       @import url('https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700&display=swap');
+       @import url('https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700;800&display=swap');
 
 *{
     margin:0;
@@ -26,12 +26,10 @@ body{
     color:#1e293b;
 }
 
-/* Elementos exclusivos para impressão (ocultos no ecrã) */
 .print-only-header, .print-only-footer {
     display: none;
 }
 
-/* Remove as setas dos inputs do tipo number */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -73,6 +71,12 @@ footer{
     align-items:center;
 }
 
+.header-left-group {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
 .calculator-title{
     color:white;
     font-size:1.8rem;
@@ -85,7 +89,6 @@ footer{
     gap: 12px;
 }
 
-/* Botão Imprimir - Apenas Ícone à Esquerda do Adicionar Linha */
 .print-title-btn {
     background: rgba(255, 255, 255, 0.2);
     color: white;
@@ -129,21 +132,26 @@ footer{
     box-shadow: 0 10px 25px rgba(18, 60, 151, 0.4);
 }
 
-/* TABELA COM LAYOUT FIXO NO ECRÃ */
+.add-compound-btn {
+    background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.add-compound-btn:hover {
+    box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+}
+
 .calculator-table{
     width:100%;
     border-collapse:collapse;
     table-layout: fixed; 
 }
 
-/* ESTILO GERAL DAS CÉLULAS DO CORPO */
 .calculator-table td {
     padding: 14px;
     border-bottom: 1px solid #e2e8f0;
     white-space: nowrap;       
 }
 
-/* TÍTULOS PERMITEM QUEBRA DE LINHA */
 .calculator-table th{
     background:#f8fafc;
     color:#475569;
@@ -157,7 +165,6 @@ footer{
     line-height: 1.3;
 }
 
-/* LARGURAS FIXAS E PROPORCIONAIS PARA AS COLUNAS NO ECRÃ */
 .calculator-table th:nth-child(2), .calculator-table td:nth-child(2),
 .calculator-table th:nth-child(5), .calculator-table td:nth-child(5),
 .calculator-table th:nth-child(6), .calculator-table td:nth-child(6),
@@ -171,16 +178,14 @@ footer{
     width: 9%; 
 }
 
-/* COLUNA INICIAL MAIS ESTREITA (50PX) */
 .calculator-table th:first-child,
 .calculator-table td:first-child {
     text-align: center;
     vertical-align: middle;
     font-weight: 600;
-    width: 50px;
+    width: 75px;
 }
 
-/* COLUNA DE AÇÃO DE 90PX */
 .calculator-table th:last-child,
 .calculator-table td:last-child {
     text-align: center;
@@ -189,8 +194,18 @@ footer{
     width: 90px; 
 }
 
-.calculator-table tr:hover{
-    background:#f8fafc;
+tr[data-type="simple"] {
+    background-color: #eff6ff;
+}
+tr[data-type="simple"]:hover {
+    background-color: #dbeafe !important;
+}
+
+.compound-row {
+    background-color: #f0fdf4;
+}
+.compound-row:hover {
+    background-color: #dcfce7 !important;
 }
 
 .calculator-table input{
@@ -203,23 +218,29 @@ footer{
     text-align: center;
     font-weight: 700;
     color: #0f172a;
-    background: #b6cbe03d;
+    background: rgba(255, 255, 255, 0.6);
 }
 
 .calculator-table input:focus{
     border-color:#2563eb;
     box-shadow:0 0 0 4px rgba(37,99,235,.15);
     outline:none;
+    background: #ffffff;
 }
 
 .result-cell{
-    background:#eff6ff;
-    color:#1e40af;
     font-weight:600;
     text-align: center;
 }
 
-/* Linha intermédia com os botões ajustados */
+tr[data-type="simple"] .result-cell {
+    color:#1e40af;
+}
+
+.compound-row .result-cell {
+    color:#065f46;
+}
+
 .action-row {
     background: #f8fafc;
 }
@@ -231,29 +252,34 @@ footer{
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: 20px;
+    gap: 15px;
 }
 
-/* Centralização do botão limpar na célula de ação */
 .action-row td:last-child {
     text-align: center;
     vertical-align: middle;
     padding: 10px 8px;
 }
 
-/* Linha de totais fixa no fundo */
 .total-row {
-    background: #f8fafc !important;
+    background: #fef3c7; 
+    color: #92400e;      
     font-weight: 700;
 }
 .total-row td {
-    border-top: 2px solid #e2e8f0;
-    border-bottom: 2px solid #cbd5e1;
-    color: #0f172a;
+    border-top: 2px solid #f59e0b;
+    border-bottom: 2px solid #f59e0b;
     font-size: 16px;
     text-align: center;
     vertical-align: middle;
-    padding: 10px 8px; 
+    padding: 12px 8px; 
+}
+
+.total-row td:first-child {
+    padding: 0 !important;
+    width: 75px;
+    min-width: 75px;
+    max-width: 75px;
 }
 
 #total-tanb, #total-dias {
@@ -261,15 +287,47 @@ footer{
     line-height: 1.3;
 }
 
-/* ESTILIZAÇÃO DOS BOTÕES COMPACTOS EM DUAS LINHAS */
-.toggle-total-btn, .clear-total-btn {
+.toggle-total-btn {
+    width: 100%;
+    height: 100%;
+    min-height: 48px;
+    background: transparent;
+    border: none;
+    color: #92400e;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+    white-space: normal;
+    padding: 4px;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.toggle-total-btn:hover {
+    background: #fcd34d;
+}
+
+.toggle-total-btn.hidden-mode {
+    background: #b45309;
+    color: white;
+}
+
+.toggle-total-btn.hidden-mode:hover {
+    background: #78350f;
+}
+
+.clear-total-btn {
     display: inline-flex;
     flex-direction: column; 
     align-items: center;
     justify-content: center;
-    background: #e2e8f0; 
-    color: #334155;
-    border: 1px solid #cbd5e1;
+    background: #fff5f5;
+    color: #dc2626;
+    border: 1px solid #fecaca;
     padding: 6px 4px;
     border-radius: 12px; 
     cursor: pointer;
@@ -285,38 +343,6 @@ footer{
     max-width: 76px;
 }
 
-/* Ajuste específico para os botões da barra de ações */
-.buttons-container .toggle-total-btn {
-    height: 48px;
-    width: 140px;
-    max-width: 140px;
-    font-size: 14px;
-}
-
-.toggle-total-btn:hover {
-    background: #cbd5e1;
-    color: #0f172a;
-    border-color: #94a3b8;
-}
-
-.toggle-total-btn.hidden-mode {
-    background: #2563eb;
-    color: white;
-    border-color: #1d4ed8;
-    box-shadow: 0 3px 8px rgba(37, 99, 235, 0.2);
-}
-
-.toggle-total-btn.hidden-mode:hover {
-    background: #1d4ed8;
-    border-color: #1e40af;
-}
-
-.clear-total-btn {
-    background: #fff5f5;
-    color: #dc2626;
-    border: 1px solid #fecaca;
-}
-
 .clear-total-btn:hover {
     background: #fee2e2;
     color: #991b1b;
@@ -324,9 +350,9 @@ footer{
     box-shadow: 0 2px 5px rgba(220, 38, 38, 0.08);
 }
 
-/* Classe utilitária para ocultação */
-.total-hidden {
-    display: none !important;
+.total-row td.total-hidden {
+    background: transparent !important;
+    border: none !important;
 }
 
 .delete-btn{
@@ -357,14 +383,64 @@ footer{
     border-top:1px solid #e2e8f0;
 }
 
+.instructions-header {
+    background: linear-gradient(90deg, #f1f5f9 0%, #f8fafc 100%);
+    padding: 16px 24px;
+    border-radius: 14px;
+    border-left: 6px solid #2563eb;
+    margin-bottom: 25px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);
+}
+
 .instructions h3{
-    margin-bottom:15px;
+    margin: 0;
     color:#0f172a;
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.info-buttons-container {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.info-explain-btn {
+    background: #ffffff;
+    color: #334155;
+    border: 1px solid #cbd5e1;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.info-explain-btn:hover {
+    background: #f8fafc;
+    border-color: #94a3b8;
+    color: #0f172a;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
 .instructions li{
     margin-bottom:10px;
     line-height:1.6;
+}
+
+.instructions hr {
+    border: 0;
+    border-top: 1px dashed #cbd5e1;
+    margin: 15px 0;
 }
 
 @media(max-width:768px){
@@ -378,13 +454,19 @@ footer{
         gap:15px;
     }
 
+    .header-left-group {
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+
     .calculator-title{
-        text-align:center;
+        text-align:left;
         font-size:1.4rem;
     }
 
     .header-actions-right {
         justify-content: center;
+        flex-wrap: wrap;
     }
 
     .tanb-calculator {
@@ -399,11 +481,8 @@ footer{
 
     .buttons-container {
         flex-direction: row !important;
-        gap: 20px !important;
-    }
-
-    .buttons-container .toggle-total-btn {
-        width: 140px !important;
+        gap: 10px !important;
+        flex-wrap: wrap;
     }
 
     .buttons-container .add-btn {
@@ -432,9 +511,6 @@ footer{
 
 .calculator-table input::placeholder{color:#cbd5e1;font-style:italic;opacity:1;}
 
-/* ------------------------------------------------------------------------- */
-/* REGRAS EXCLUSIVAS PARA IMPRESSÃO PERFEITA (PAISAGEM, NO-CUT & RODAPÉ NO FIM) */
-/* ------------------------------------------------------------------------- */
 @media print {
     @page {
         size: landscape; 
@@ -447,7 +523,6 @@ footer{
         padding: 0 !important;
     }
 
-    /* Cabeçalho estruturado na folha */
     .print-only-header {
         display: flex !important;
         justify-content: space-between;
@@ -468,7 +543,6 @@ footer{
         font-style: italic;
     }
 
-    /* FIXAÇÃO ABSOLUTA DO RODAPÉ NO FIM DA FOLHA IMPRESSA */
     .print-only-footer {
         display: block !important;
         position: fixed !important;
@@ -491,7 +565,6 @@ footer{
         width: 100% !important;
     }
 
-    /* Oculta secções dinâmicas */
     .calculator-header, 
     .action-row, 
     .instructions, 
@@ -499,16 +572,14 @@ footer{
         display: none !important;
     }
 
-    /* Tabela horizontal sem cortes */
     .calculator-table {
         table-layout: fixed !important; 
         width: 100% !important;
         display: table !important;
     }
 
-    /* DISTRIBUIÇÃO DAS COLUNAS (SOMA 100%) */
-    .calculator-table th:nth-child(1), .calculator-table td:nth-child(1) { width: 4% !important; text-align: center !important; display: table-cell !important;}   
-    .calculator-table th:nth-child(2), .calculator-table td:nth-child(2) { width: 16% !important; text-align: right !important; display: table-cell !important;}  
+    .calculator-table th:nth-child(1), .calculator-table td:nth-child(1) { width: 6% !important; text-align: center !important; display: table-cell !important;}   
+    .calculator-table th:nth-child(2), .calculator-table td:nth-child(2) { width: 14% !important; text-align: right !important; display: table-cell !important;}  
     .calculator-table th:nth-child(3), .calculator-table td:nth-child(3) { width: 9% !important; text-align: center !important; display: table-cell !important;}   
     .calculator-table th:nth-child(4), .calculator-table td:nth-child(4) { width: 8% !important; text-align: center !important; display: table-cell !important;}   
     .calculator-table th:nth-child(5), .calculator-table td:nth-child(5) { width: 16% !important; text-align: right !important; display: table-cell !important;}  
@@ -516,7 +587,6 @@ footer{
     .calculator-table th:nth-child(7), .calculator-table td:nth-child(7) { width: 16% !important; text-align: right !important; display: table-cell !important;}  
     .calculator-table th:nth-child(8), .calculator-table td:nth-child(8) { width: 16% !important; text-align: right !important; display: table-cell !important;}  
 
-    /* Ocultação total da coluna de Ação */
     .calculator-table th:last-child, 
     .calculator-table td:last-child {
         display: none !important;
@@ -540,6 +610,18 @@ footer{
         white-space: nowrap !important;
         border-bottom: 1px solid #cbd5e1 !important;
         display: table-cell !important;
+    }
+
+    tr[data-type="simple"] {
+        background-color: #eff6ff !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    
+    .compound-row {
+        background-color: #f0fdf4 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
     }
 
     .calculator-table tbody tr.empty-print-row {
@@ -566,7 +648,7 @@ footer{
     }
     
     .total-row {
-        background: #f8fafc !important;
+        background: #fef3c7 !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
         display: table-row !important;
@@ -577,7 +659,16 @@ footer{
         padding: 10px 6px !important;
         border-top: 2px solid #000 !important;
         border-bottom: 2px solid #000 !important;
+        color: #92400e !important;
         display: table-cell !important;
+    }
+
+    .total-row td:first-child button {
+        display: none !important;
+    }
+    .total-row td:first-child::before {
+        content: "Total";
+        font-weight: 700;
     }
     
     .total-row td:nth-child(2) { text-align: right !important; }
@@ -589,16 +680,21 @@ footer{
 <body>
 
     <div class="print-only-header">
-        <h1>Simulador de Depósitos a Prazo (TANB)</h1>
+        <h1>Simulador de Depósitos a Prazo (TANB & Juros Compostos)</h1>
         <p>Relatório de Simulações Financeiras</p>
     </div>
 
     <div class="tanb-calculator">
         <div class="calculator-header">
-            <h2 class="calculator-title">💰 Simulador de Depósitos a Prazo (TANB)</h2>
+            <!-- Grupo da Esquerda: Apenas o título principal -->
+            <div class="header-left-group">
+                <h2 class="calculator-title">💰 Simulador de Depósitos (TANB e Compostos)</h2>
+            </div>
+            <!-- Grupo da Direita: Botões de adicionar linhas e o Botão de Imprimir no fim (extrema direita) -->
             <div class="header-actions-right">
+                <button class="add-btn" onclick="addRow(false)">Adicionar linha TANB</button>
+                <button class="add-btn add-compound-btn" onclick="addRow(true)">Adicionar linha de juros compostos</button>
                 <button class="print-title-btn" onclick="printTable()" title="Imprimir Resultados">🖨️</button>
-                <button class="add-btn" onclick="addRow()">Adicionar linha de investimento</button>
             </div>
         </div>
         
@@ -607,7 +703,7 @@ footer{
                 <tr>
                     <th>#</th>
                     <th>Montante a<br>Investir (€)</th>
-                    <th>% TANB</th>
+                    <th>% Taxa Anual</th>
                     <th>Dias</th>
                     <th>Juros<br>Brutos (€)</th>
                     <th>Retenção<br>(28%)</th>
@@ -617,50 +713,7 @@ footer{
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td><input type="text" placeholder="10 000 €" inputmode="decimal" min="0" step="0.01" oninput="calculateRow(this)" onfocus="editMoney(this)" onblur="formatMoney(this)"></td>
-                    <td><input type="text" placeholder="%" inputmode="decimal" min="0" step="0.01" oninput="calculateRow(this)" onfocus="editPercent(this)" onblur="formatPercent(this)"></td>
-                    <td><input type="number" placeholder="Dias" min="1" step="1" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g,''); calculateRow(this)" onfocus="this.select()"></td>
-                    <td class="result-cell">---</td>
-                    <td class="result-cell">---</td>
-                    <td class="result-cell">---</td>
-                    <td class="result-cell">---</td>
-                    <td><button class="delete-btn" onclick="deleteRow(this)"> ❌</button></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td><input type="text" placeholder="10 000 €" inputmode="decimal" min="0" step="0.01" oninput="calculateRow(this)" onfocus="editMoney(this)" onblur="formatMoney(this)"></td>
-                    <td><input type="text" placeholder="%" inputmode="decimal" min="0" step="0.01" oninput="calculateRow(this)" onfocus="editPercent(this)" onblur="formatPercent(this)"></td>
-                    <td><input type="number" placeholder="Dias" min="1" step="1" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g,''); calculateRow(this)" onfocus="this.select()"></td>
-                    <td class="result-cell">---</td>
-                    <td class="result-cell">---</td>
-                    <td class="result-cell">---</td>
-                    <td class="result-cell">---</td>
-                    <td><button class="delete-btn" onclick="deleteRow(this)"> ❌</button></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td><input type="text" placeholder="10 000 €" inputmode="decimal" min="0" step="0.01" oninput="calculateRow(this)" onfocus="editMoney(this)" onblur="formatMoney(this)"></td>
-                    <td><input type="text" placeholder="%" inputmode="decimal" min="0" step="0.01" oninput="calculateRow(this)" onfocus="editPercent(this)" onblur="formatPercent(this)"></td>
-                    <td><input type="number" placeholder="Dias" min="1" step="1" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g,''); calculateRow(this)" onfocus="this.select()"></td>
-                    <td class="result-cell">---</td>
-                    <td class="result-cell">---</td>
-                    <td class="result-cell">---</td>
-                    <td class="result-cell">---</td>
-                    <td><button class="delete-btn" onclick="deleteRow(this)"> ❌</button></td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td><input type="text" placeholder="10 000 €" inputmode="decimal" min="0" step="0.01" oninput="calculateRow(this)" onfocus="editMoney(this)" onblur="formatMoney(this)"></td>
-                    <td><input type="text" placeholder="%" inputmode="decimal" min="0" step="0.01" oninput="calculateRow(this)" onfocus="editPercent(this)" onblur="formatPercent(this)"></td>
-                    <td><input type="number" placeholder="Dias" min="1" step="1" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g,''); calculateRow(this)" onfocus="this.select()"></td>
-                    <td class="result-cell">---</td>
-                    <td class="result-cell">---</td>
-                    <td class="result-cell">---</td>
-                    <td class="result-cell">---</td>
-                    <td><button class="delete-btn" onclick="deleteRow(this)"> ❌</button></td>
-                </tr>
+                <!-- Linhas geradas dinamicamente via JavaScript ao iniciar -->
             </tbody>
             
             <tfoot>
@@ -668,8 +721,8 @@ footer{
                     <td></td>
                     <td colspan="7">
                         <div class="buttons-container">
-                            <button class="add-btn" onclick="addRow()">Adicionar linha de investimento</button>
-                            <button class="toggle-total-btn hidden-mode" id="toggle-btn-element" onclick="toggleTotals()">Mostrar<br>Total</button>
+                            <button class="add-btn" onclick="addRow(false)">Adicionar linha TANB</button>
+                            <button class="add-btn add-compound-btn" onclick="addRow(true)">Adicionar linha de juros compostos</button>
                         </div>
                     </td>
                     <td>
@@ -677,45 +730,77 @@ footer{
                     </td>
                 </tr>
                 <tr class="total-row" id="total-row-element">
-                    <td></td>
-                    <td class="total-data total-hidden" id="total-montante">---</td>
-                    <td class="total-data total-hidden" id="total-tanb" style="color: #475569; font-size: 13px;">---</td>
-                    <td class="total-data total-hidden" id="total-dias" style="color: #475569; font-size: 13px;">---</td>
-                    <td class="total-data total-hidden" id="total-brutos">---</td>
-                    <td class="total-data total-hidden" id="total-retencao">---</td>
-                    <td class="total-data total-hidden" id="total-liquidos">---</td>
-                    <td class="total-data total-hidden" id="total-dia">---</td>
-                    <td></td>
+                    <td id="toggle-button-cell">
+                        <button class="toggle-total-btn hidden-mode" id="toggle-btn-element" onclick="toggleTotals()">Mostrar total</button>
+                    </td>
+                    <td class="total-data total-hidden" id="total-montante"></td>
+                    <td class="total-data total-hidden" id="total-tanb"></td>
+                    <td class="total-data total-hidden" id="total-dias"></td>
+                    <td class="total-data total-hidden" id="total-brutos"></td>
+                    <td class="total-data total-hidden" id="total-retencao"></td>
+                    <td class="total-data total-hidden" id="total-liquidos"></td>
+                    <td class="total-data total-hidden" id="total-dia"></td>
+                    <td class="total-data total-hidden" id="total-blank-last"></td>
                 </tr>
             </tfoot>
         </table>
  
         <div class="instructions">
-            <h3>Como usar a Calculadora TANB:</h3>
+            <div class="instructions-header">
+                <h3>📖 Como usar a Calculadora de Depósitos:</h3>
+            </div>
+            
+            <div class="info-buttons-container">
+                <button class="info-explain-btn" onclick="showTanbInfo()">💡 O que é a TANB?</button>
+                <button class="info-explain-btn" onclick="showCompoundInfo()">📈 O que são Juros Compostos?</button>
+            </div>
+            
             <ul>
                 <li><strong>Montante a Investir (€):</strong> Insira o valor que pretende investir (em euros);</li>
-                <li><strong>% TANB:</strong> Insira a Taxa Anual Nominal Bruta;</li>    
-                <li><strong>Dias:</strong> Insira o período do investimento em dias;</li>
-                <li><strong>Juros Brutos (€):</strong> Valor total calculado sem a retenção na fonte;</li>
+                <li><strong>% Taxa Anual:</strong> Insira a Taxa Anual Nominal Bruta (TANB);</li>    
+                <li><strong>Dias:</strong> Insira o período do investmento em dias;</li>
+            </ul>
+            
+            <hr>
+            
+            <ul>
+                <li><strong>Linhas TANB Simples (Padrão Azul):</strong> O cálculo dos juros simples baseia-se na convenção do <strong>ano comercial de 360 dias</strong>.</li>
+                <li><strong>Linhas Verdes (Compostas):</strong> Representam investimentos onde o cálculo utiliza o <strong>ano civil de 365 dias</strong>. Os juros são capitalizados e o imposto (28%) é deduzido diariamente, reinvestindo o ganho líquido de forma contínua.</li>
+            </ul>
+            
+            <hr>
+            
+            <ul>
+                <li><strong>Juros Brutos (€):</strong> Valor total ganho sem a retenção na fonte.</li>
                 <li><strong>Retenção na fonte (€):</strong> Em conformidade com a regulamentação fiscal portuguesa, a taxa de retenção é de 28%;</li>
-                <li><strong>Juros Líquidos (€):</strong> Lucro calculado automaticamente referente aos dias colocados já com retenção na fonte;</li>
-                <li><strong>Juro Líquido por dia (€):</strong> Lucro calculado automaticamente como valor ganho por dia já com a retenção na fonte.</li>
+                <li><strong>Juros Líquidos (€):</strong> Lucro real calculado referente aos dias colocados já livre de impostos;</li>
+                <li><strong>Juro Líquido por dia (€):</strong> Lucro automaticamente calculado como valor médio ganho por dia já com a retenção na fonte.</li>
                 <li><strong>Ação:</strong> Eliminar a linha de simulação.</li>
             </ul>
         </div>
     </div>
 
     <div class="print-only-footer" id="dynamic-print-footer">
-        © 2026 Agajota | Helder Jardim | Versão V19 - 07.07.2026
+        © 2026 Agajota | Helder Jardim | Versão V21 - 2026
     </div>
         
     <script>
     let totalsVisible = false;
     let currentTotals = { montante: 0, tanbMed: 0, diasMed: 0, brutos: 0, retencao: 0, liquidos: 0, dia: 0 };
 
+    function showTanbInfo() {
+        alert("📊 TANB (Taxa Anual Nominal Bruta):\n\nÉ a taxa de juro de referência para investimentos a um ano, antes de serem retirados os impostos (retenção na fonte de 28%). \n\nChama-se 'nominal' porque reflete o ganho anual teórico sem contar com reinvestimentos ou capitalizações.");
+    }
+
+    function showCompoundInfo() {
+        alert("📈 Juros Compostos (Capitalização):\n\nÉ o efeito de 'juros sobre juros'. Em vez de receber os ganhos apenas no fim, os juros gerados hoje são somados ao seu montante principal. \n\nNo dia seguinte, passará a render juros sobre o novo total acumulado, fazendo o seu dinheiro crescer de forma exponencial ao longo do tempo.");
+    }
+
     function calculateRow(inputElement) {
         const row = inputElement.closest('tr');
         if (!row || row.parentElement.tagName === 'TFOOT') return;
+        
+        const isCompound = row.getAttribute('data-type') === 'compound';
         
         const mtxt = row.cells[1].querySelector('input').value.replace(/€/g,'').replace(/\s/g,'').replace(',','.'); 
         const montante = parseFloat(mtxt) || 0;
@@ -731,12 +816,27 @@ footer{
             row.cells[6].textContent = "---";
             row.cells[7].textContent = "---";
         } else {
-            const BASE_ANO = 360; 
-            const jurosBrutos = montante * (tanb / 100) * (dias / BASE_ANO);
             const TAXA_RETENCAO = 0.28;
-            const retencao = jurosBrutos * TAXA_RETENCAO;
-            const valorReceber = jurosBrutos - retencao;
-            const ganhoDia = valorReceber / dias;
+            let jurosBrutos = 0;
+            let retencao = 0;
+            let valorReceber = 0;
+            let ganhoDia = 0;
+
+            if (isCompound) {
+                const i_diario = (tanb / 100) / 365;
+                const montanteFinal = montante * Math.pow(1 + i_diario * (1 - TAXA_RETENCAO), dias);
+                
+                valorReceber = montanteFinal - montante;
+                jurosBrutos = valorReceber / (1 - TAXA_RETENCAO);
+                retencao = jurosBrutos * TAXA_RETENCAO;
+                ganhoDia = valorReceber / dias;
+            } else {
+                const BASE_ANO = 360; 
+                jurosBrutos = montante * (tanb / 100) * (dias / BASE_ANO);
+                retencao = jurosBrutos * TAXA_RETENCAO;
+                valorReceber = jurosBrutos - retencao;
+                ganhoDia = valorReceber / dias;
+            }
             
             row.cells[4].textContent = jurosBrutos.toFixed(2) + " €";
             row.cells[5].textContent = retencao.toFixed(2) + " €";
@@ -747,14 +847,20 @@ footer{
         updateTotals();
     }
         
-    function addRow() {
+    function addRow(isCompound = false) {
         const table = document.getElementById('calculator-table');
         const tbody = table.querySelector('tbody');
-        const rowCount = tbody.rows.length;
         
         const newRow = document.createElement('tr');
+        if (isCompound) {
+            newRow.setAttribute('data-type', 'compound');
+            newRow.classList.add('compound-row');
+        } else {
+            newRow.setAttribute('data-type', 'simple');
+        }
+
         newRow.innerHTML = `
-            <td>${rowCount + 1}</td>
+            <td class="row-index"></td>
             <td><input type="text" placeholder="10 000 €" inputmode="decimal" min="0" step="0.01" oninput="calculateRow(this)" onfocus="editMoney(this)" onblur="formatMoney(this)"></td>
             <td><input type="text" placeholder="%" inputmode="decimal" min="0" step="0.01" oninput="calculateRow(this)" onfocus="editPercent(this)" onblur="formatPercent(this)"></td>
             <td><input type="number" placeholder="Dias" min="1" step="1" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g,''); calculateRow(this)" onfocus="this.select()"></td>
@@ -784,19 +890,31 @@ footer{
     function updateRowNumbers() {
         const rows = document.querySelectorAll('#calculator-table tbody tr');
         rows.forEach((row, index) => {
-            row.cells[0].textContent = index + 1;
+            const isCompound = row.getAttribute('data-type') === 'compound';
+            if (isCompound) {
+                row.cells[0].innerHTML = (index + 1) + '<br><small style="font-size:9px;color:#059669;font-weight:bold;">Comp.</small>';
+            } else {
+                row.cells[0].innerHTML = (index + 1) + '<br><small style="font-size:9px;color:#2563eb;font-weight:bold;">TANB</small>';
+            }
         });
     }
 
     function clearAllRows() {
         if(confirm("Tem a certeza que deseja limpar todas as simulações e redefinir a tabela?")) {
-            const tbody = document.querySelector('#calculator-table tbody');
-            tbody.innerHTML = '';
-            for(let i=0; i<4; i++) {
-                addRow();
-            }
-            updateTotals();
+            initTableDefaultRows();
         }
+    }
+
+    function initTableDefaultRows() {
+        const tbody = document.querySelector('#calculator-table tbody');
+        tbody.innerHTML = '';
+        
+        addRow(false);
+        addRow(false);
+        addRow(true);
+        addRow(true);
+        
+        updateTotals();
     }
 
     function updateTotals() {
@@ -849,6 +967,13 @@ footer{
     }
 
     function renderTotals() {
+        const cells = document.querySelectorAll('.total-data');
+        
+        if (!totalsVisible) {
+            cells.forEach(cell => cell.textContent = "");
+            return;
+        }
+
         if (currentTotals.montante === 0) {
             document.getElementById('total-montante').textContent = "---";
             document.getElementById('total-tanb').textContent = "---";
@@ -857,16 +982,17 @@ footer{
             document.getElementById('total-montante').textContent = currentTotals.montante.toLocaleString('pt-PT', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
             
             document.getElementById('total-tanb').innerHTML = currentTotals.tanbMed > 0 ? 
-                'Média Pond.<br><span style="font-size:15px; font-weight:700; color:#2563eb;">' + currentTotals.tanbMed.toLocaleString('pt-PT', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' %</span>' : "---";
+                'Média Pond.<br><span style="font-size:15px; font-weight:700;">' + currentTotals.tanbMed.toLocaleString('pt-PT', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' %</span>' : "---";
             
             document.getElementById('total-dias').innerHTML = currentTotals.diasMed > 0 ? 
-                'Média Pond.<br><span style="font-size:15px; font-weight:700; color:#2563eb;">' + Math.round(currentTotals.diasMed) + ' d</span>' : "---";
+                'Média Pond.<br><span style="font-size:15px; font-weight:700;">' + Math.round(currentTotals.diasMed) + ' d</span>' : "---";
         }
 
         document.getElementById('total-brutos').textContent = currentTotals.brutos > 0 ? currentTotals.brutos.toFixed(2) + ' €' : "---";
         document.getElementById('total-retencao').textContent = currentTotals.retencao > 0 ? currentTotals.retencao.toFixed(2) + ' €' : "---";
         document.getElementById('total-liquidos').textContent = currentTotals.liquidos > 0 ? currentTotals.liquidos.toFixed(2) + ' €' : "---";
         document.getElementById('total-dia').textContent = currentTotals.dia > 0 ? currentTotals.dia.toFixed(4) + ' €' : "---";
+        document.getElementById('total-blank-last').textContent = "";
     }
 
     function toggleTotals() {
@@ -876,13 +1002,15 @@ footer{
 
         if (totalsVisible) {
             btn.classList.remove('hidden-mode');
-            btn.innerHTML = 'Ocultar<br>Total';
+            btn.textContent = 'Ocultar total';
             cells.forEach(cell => cell.classList.remove('total-hidden'));
         } else {
             btn.classList.add('hidden-mode');
-            btn.innerHTML = 'Mostrar<br>Total';
+            btn.textContent = 'Mostrar total';
             cells.forEach(cell => cell.classList.add('total-hidden'));
         }
+        
+        renderTotals();
     }
         
 function formatMoney(input){
@@ -917,7 +1045,6 @@ function editPercent(input){
  input.select();
 }
 
-/* Nova função de impressão controlada com data/hora em tempo real */
 function printTable() {
     const rows = document.querySelectorAll('#calculator-table tbody tr');
     
@@ -930,7 +1057,6 @@ function printTable() {
         }
     });
 
-    // CAPTURA A DATA E HORA ATUAIS NO MOMENTO EXATO DO CLIQUE
     const agora = new Date();
     const dia = String(agora.getDate()).padStart(2, '0');
     const mes = String(agora.getMonth() + 1).padStart(2, '0');
@@ -940,37 +1066,45 @@ function printTable() {
     
     const dataHoraFormatada = `${dia}/${mes}/${ano}, ${horas}:${minutos}`;
 
-    // INJETA DINAMICAMENTE NO TEXTO DO RODAPÉ DE IMPRESSÃO
     const footerPrint = document.getElementById('dynamic-print-footer');
     footerPrint.innerHTML = `© 2026 Agajota | Impresso: ${dataHoraFormatada}`;
 
-    // Executa a ação de impressão
     window.print();
 }
 
 window.onload=function(){
-document.querySelectorAll('#calculator-table tbody input').forEach(i=>calculateRow(i));
-updateTotals();
+    initTableDefaultRows();
 
-document.addEventListener('keydown',function(e){
-if(e.key==='ArrowUp'||e.key==='ArrowDown'){e.preventDefault();return;}
-if(e.key!=='Enter')return;
-const input=e.target;if(input.tagName!=='INPUT')return;
-e.preventDefault();
-const row=input.closest('tr');
-if(row.parentElement.tagName === 'TFOOT') return;
+    document.addEventListener('keydown',function(e){
+        if(e.key==='ArrowUp'||e.key==='ArrowDown'){e.preventDefault();return;}
+        if(e.key!=='Enter')return;
+        
+        const input=e.target;
+        if(input.tagName!=='INPUT')return;
+        
+        const row=input.closest('tr');
+        if(row.parentElement.tagName === 'TFOOT') return;
 
-const inputs=[...row.querySelectorAll('input')];let idx=inputs.indexOf(input);
-if(idx<inputs.length-1){inputs[idx+1].focus();inputs[idx+1].select();return;}
-let next=row.nextElementSibling;
-if(!next){addRow(); next = row.nextElementSibling;}
-if(next){let f=next.querySelector('input');f.focus();f.select();}
-});
+        const inputs=[...row.querySelectorAll('input')];
+        let idx=inputs.indexOf(input);
+        
+        if(idx === 2) { 
+            e.preventDefault();
+            input.blur();
+            return;
+        }
+        
+        if(idx < inputs.length - 1){
+            e.preventDefault();
+            inputs[idx+1].focus();
+            inputs[idx+1].select();
+        }
+    });
 };
 </script>
 
 <footer>
-  © 2026 Agajota | V20 - 09.07.2026
+  © 2026 Agajota | V21 - 2026
 </footer>
 
 </body>
