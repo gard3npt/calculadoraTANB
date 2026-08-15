@@ -254,7 +254,7 @@ tr[data-type="simple"] .result-cell {
 
 .buttons-container {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     gap: 15px;
 }
@@ -269,7 +269,18 @@ tr[data-type="simple"] .result-cell {
     background: #fef3c7; 
     color: #92400e;      
     font-weight: 700;
+    transition: background 0.2s ease;
 }
+
+.total-row.is-hidden {
+    background: transparent !important;
+}
+
+.total-row.is-hidden td {
+    border-top: none !important;
+    border-bottom: none !important;
+}
+
 .total-row td {
     border-top: 2px solid #f59e0b;
     border-bottom: 2px solid #f59e0b;
@@ -295,9 +306,9 @@ tr[data-type="simple"] .result-cell {
     width: 100%;
     height: 100%;
     min-height: 48px;
-    background: transparent;
+    background: #b45309;
     border: none;
-    color: #92400e;
+    color: white;
     font-size: 11px;
     font-weight: 700;
     cursor: pointer;
@@ -312,15 +323,6 @@ tr[data-type="simple"] .result-cell {
 }
 
 .toggle-total-btn:hover {
-    background: #fcd34d;
-}
-
-.toggle-total-btn.hidden-mode {
-    background: #b45309;
-    color: white;
-}
-
-.toggle-total-btn.hidden-mode:hover {
     background: #78350f;
 }
 
@@ -415,28 +417,29 @@ tr[data-type="simple"] .result-cell {
 }
 
 .info-explain-btn {
-    background: #ffffff;
-    color: #334155;
+    background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+    color: #1e293b;
     border: 1px solid #cbd5e1;
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-weight: 700;
     font-size: 13px;
     cursor: pointer;
-    transition: 0.2s ease-in-out;
+    transition: all 0.25s ease-in-out;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .info-explain-btn:hover {
-    background: #f8fafc;
-    border-color: #94a3b8;
-    color: #0f172a;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    color: #ffffff;
+    border-color: #1d4ed8;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
 }
 
-/* Modal Overlay e Conteúdo */
 .modal-overlay {
     display: none;
     position: fixed;
@@ -459,23 +462,27 @@ tr[data-type="simple"] .result-cell {
     background: white;
     padding: 28px;
     border-radius: 16px;
-    max-width: 420px;
+    max-width: 480px;
     width: 90%;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     position: relative;
-    text-align: center;
+    text-align: left;
 }
 
 .modal-content h3 {
-    margin-bottom: 8px;
+    margin-bottom: 12px;
     color: #0f172a;
     font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .modal-content p {
-    color: #64748b;
-    font-size: 0.9rem;
-    margin-bottom: 20px;
+    color: #475569;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 12px;
 }
 
 .modal-close {
@@ -518,6 +525,25 @@ tr[data-type="simple"] .result-cell {
     color: white;
     border-color: #2563eb;
     transform: translateY(-1px);
+}
+
+.modal-footer {
+    margin-top: 20px;
+    padding-top: 12px;
+    border-top: 1px dashed #e2e8f0;
+    font-size: 0.85rem;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.modal-footer .version-highlight {
+    color: #2563eb;
+    font-weight: 800;
+    background: #eff6ff;
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid #bfdbfe;
+    display: inline-block;
 }
 
 .instructions li{
@@ -569,6 +595,7 @@ tr[data-type="simple"] .result-cell {
 
     .buttons-container {
         flex-direction: row !important;
+        justify-content: center !important;
         gap: 10px !important;
         flex-wrap: wrap;
     }
@@ -777,14 +804,12 @@ tr[data-type="simple"] .result-cell {
 
     <div class="tanb-calculator">
         <div class="calculator-header">
-            <!-- Grupo da Esquerda: Apenas o título principal -->
             <div class="header-left-group">
                 <h2 class="calculator-title">💰 Simulador de Depósitos (TANB e Compostos)</h2>
             </div>
-            <!-- Grupo da Direita: Botão de Sobre e Botão de Imprimir -->
             <div class="header-actions-right">
-                <button class="print-title-btn" onclick="openAboutModal()" title="Informação">ℹ️</button>
                 <button class="print-title-btn" onclick="printTable()" title="Imprimir simulações">🖨️</button>
+                <button class="print-title-btn" onclick="openAboutModal()" title="Informação">ℹ️</button>
             </div>
         </div>
         
@@ -807,6 +832,21 @@ tr[data-type="simple"] .result-cell {
             </tbody>
             
             <tfoot>
+                <!-- Linha de Totais -->
+                <tr class="total-row" id="total-row-element">
+                    <td id="toggle-button-cell">
+                        <button class="toggle-total-btn" id="toggle-btn-element" onclick="toggleTotals()">Mostrar total</button>
+                    </td>
+                    <td class="total-data total-hidden" id="total-montante"></td>
+                    <td class="total-data total-hidden" id="total-tanb"></td>
+                    <td class="total-data total-hidden" id="total-dias"></td>
+                    <td class="total-data total-hidden" id="total-brutos"></td>
+                    <td class="total-data total-hidden" id="total-retencao"></td>
+                    <td class="total-data total-hidden" id="total-liquidos"></td>
+                    <td class="total-data total-hidden" id="total-dia"></td>
+                    <td class="total-data total-hidden" id="total-blank-last"></td>
+                </tr>
+                <!-- Linha com os Botões de Ação Centralizados -->
                 <tr class="action-row">
                     <td></td>
                     <td colspan="7">
@@ -819,30 +859,18 @@ tr[data-type="simple"] .result-cell {
                         <button class="clear-total-btn" id="clear-btn-element" onclick="clearAllRows()">Limpar<br>tudo</button>
                     </td>
                 </tr>
-                <tr class="total-row" id="total-row-element">
-                    <td id="toggle-button-cell">
-                        <button class="toggle-total-btn hidden-mode" id="toggle-btn-element" onclick="toggleTotals()">Mostrar total</button>
-                    </td>
-                    <td class="total-data total-hidden" id="total-montante"></td>
-                    <td class="total-data total-hidden" id="total-tanb"></td>
-                    <td class="total-data total-hidden" id="total-dias"></td>
-                    <td class="total-data total-hidden" id="total-brutos"></td>
-                    <td class="total-data total-hidden" id="total-retencao"></td>
-                    <td class="total-data total-hidden" id="total-liquidos"></td>
-                    <td class="total-data total-hidden" id="total-dia"></td>
-                    <td class="total-data total-hidden" id="total-blank-last"></td>
-                </tr>
             </tfoot>
         </table>
  
         <div class="instructions">
-            <div class="instructions-header">
-                <h3>📖 Como usar a Calculadora de Depósitos:</h3>
-            </div>
-            
+            <!-- Botões de informação -->
             <div class="info-buttons-container">
                 <button class="info-explain-btn" onclick="showTanbInfo()">💡 O que é a TANB?</button>
                 <button class="info-explain-btn" onclick="showCompoundInfo()">📈 O que são Juros Compostos?</button>
+            </div>
+
+            <div class="instructions-header">
+                <h3>📖 Como usar a Calculadora de Depósitos:</h3>
             </div>
             
             <ul>
@@ -864,18 +892,38 @@ tr[data-type="simple"] .result-cell {
                 <li><strong>Juros Brutos (€):</strong> Valor total ganho sem a retenção na fonte.</li>
                 <li><strong>Retenção na fonte (€):</strong> Em conformidade com a regulamentação fiscal portuguesa, a taxa de retenção é de 28%;</li>
                 <li><strong>Juros Líquidos (€):</strong> Lucro real calculated referente aos dias colocados já livre de impostos;</li>
-                <li><strong>Juro Líquido por dia (€):</strong> Lucro automaticamente calculado como valor médio ganho por dia já com a retenção na fonte.</li>
+                <li><strong>Juro Líquido por dia (€):</strong> Lucro automaticamente calculated como valor médio ganho por dia já com a retenção na fonte.</li>
                 <li><strong>Ação:</strong> Eliminar a linha de simulação.</li>
             </ul>
         </div>
     </div>
 
-    <!-- Janela Modal do "Info" -->
-    <div id="about-modal" class="modal-overlay" onclick="closeAboutModal(event)">
+    <!-- Janela Modal: TANB -->
+    <div id="tanb-modal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'tanb-modal')">
         <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('tanb-modal')">&times;</span>
+            <h3>📊 O que é a TANB?</h3>
+            <p>A <strong>TANB (Taxa Anual Nominal Bruta)</strong> é a taxa de juro de referência utilizada para depósitos e investimentos a um ano, antes de qualquer dedução fiscal.</p>
+            <p>É designada por <em>"nominal"</em> porque reflete o ganho bruto teórico sem considerar o reinvestimento de juros, e <em>"bruta"</em> porque não inclui a retenção do imposto (como a taxa de 28% em Portugal).</p>
+        </div>
+    </div>
+
+    <!-- Janela Modal: Juros Compostos -->
+    <div id="compound-modal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'compound-modal')">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('compound-modal')">&times;</span>
+            <h3>📈 O que são Juros Compostos?</h3>
+            <p>Trata-se do efeito comummente conhecido como <strong>"juros sobre juros"</strong>.</p>
+            <p>Em vez de receber os rendimentos apenas no final do período, os juros gerados periodicamente são somados ao capital inicial. Nos períodos seguintes, os juros passam a incidir sobre o novo saldo acumulado, gerando um crescimento exponencial do seu investimento ao longo do tempo.</p>
+        </div>
+    </div>
+
+    <!-- Janela Modal do "Info" / Suporte -->
+    <div id="about-modal" class="modal-overlay" onclick="closeAboutModal(event)">
+        <div class="modal-content" style="text-align: center;">
             <span class="modal-close" onclick="toggleAboutModal(false)">&times;</span>
-            <h3>ℹ️ Suporte:</h3>
-            <p>Selecione uma opção:</p>
+            <h3 style="justify-content: center;">ℹ️ Suporte:</h3>
+            <p style="text-align: center; margin-bottom: 20px;">Selecione uma opção:</p>
             
             <div class="modal-menu-options">
                 <button class="modal-option-btn" onclick="sendEmail('Sugestões')">
@@ -888,10 +936,14 @@ tr[data-type="simple"] .result-cell {
                     ✉️ Contacto (E-mail)
                 </button>
             </div>
+
+            <!-- Rodapé da Janela Modal com Versão Destacada -->
+            <div class="modal-footer">
+                Versão: <span class="version-highlight">V22</span>
+            </div>
         </div>
     </div>
 
-    <!-- O rodapé de impressão é preenchido dinamicamente via JS -->
     <div class="print-only-footer" id="dynamic-print-footer"></div>
         
     <script>
@@ -914,21 +966,38 @@ tr[data-type="simple"] .result-cell {
         }
     }
 
+    /* Funções para as Modais de Informação */
+    function showTanbInfo() {
+        openModal('tanb-modal');
+    }
+
+    function showCompoundInfo() {
+        openModal('compound-modal');
+    }
+
+    function openModal(id) {
+        const modal = document.getElementById(id);
+        if (modal) modal.classList.add('active');
+    }
+
+    function closeModal(id) {
+        const modal = document.getElementById(id);
+        if (modal) modal.classList.remove('active');
+    }
+
+    function closeModalOnOverlay(event, id) {
+        if (event.target.id === id) {
+            closeModal(id);
+        }
+    }
+
     function sendEmail(tipo) {
         const email = "jardimhelder@hotmail.com";
-        const assunto = encodeURIComponent(`Simulador de Depósitos (TANB e Compostos) [${tipo}] `);
+        const assunto = encodeURIComponent(`Simulador de Depósitos (TANB e Compostos) - [${tipo}] `);
         const corpo = encodeURIComponent(`OLá,\n\nRelativamente à opção "${tipo}":\n\n"Descreva aqui o que pretende"`);
         
         window.location.href = `mailto:${email}?subject=${assunto}&body=${corpo}`;
         toggleAboutModal(false);
-    }
-
-    function showTanbInfo() {
-        alert("📊 TANB (Taxa Anual Nominal Bruta):\n\nÉ a taxa de juro de referência para investimentos a um ano, antes de serem retirados os impostos (retenção na fonte de 28%). \n\nChama-se 'nominal' porque reflete o ganho anual teórico sem contar com reinvestimentos ou capitalizações.");
-    }
-
-    function showCompoundInfo() {
-        alert("📈 Juros Compostos (Capitalização):\n\nÉ o efeito de 'juros sobre juros'. Em vez de receber os ganhos apenas no fim, os juros gerados hoje são somados ao seu montante principal. \n\nNo dia seguinte, passará a render juros sobre o novo total acumulado, fazendo o seu dinheiro crescer de forma exponencial ao longo do tempo.");
     }
 
     function calculateRow(inputElement) {
@@ -1044,11 +1113,10 @@ tr[data-type="simple"] .result-cell {
         const tbody = document.querySelector('#calculator-table tbody');
         tbody.innerHTML = '';
         
-        // Configuração inicial: 3 linhas TANB simples + 1 linha Composta
-        addRow(false); // Linha TANB 1
-        addRow(false); // Linha TANB 2
-        addRow(false); // Linha TANB 3
-        addRow(true);  // Linha Composta 1
+        addRow(false); 
+        addRow(false); 
+        addRow(false); 
+        addRow(true);  
         
         updateTotals();
     }
@@ -1134,15 +1202,16 @@ tr[data-type="simple"] .result-cell {
     function toggleTotals() {
         totalsVisible = !totalsVisible;
         const btn = document.getElementById('toggle-btn-element');
+        const totalRow = document.getElementById('total-row-element');
         const cells = document.querySelectorAll('.total-data');
 
         if (totalsVisible) {
-            btn.classList.remove('hidden-mode');
             btn.textContent = 'Ocultar total';
+            totalRow.classList.remove('is-hidden');
             cells.forEach(cell => cell.classList.remove('total-hidden'));
         } else {
-            btn.classList.add('hidden-mode');
             btn.textContent = 'Mostrar total';
+            totalRow.classList.add('is-hidden');
             cells.forEach(cell => cell.classList.add('total-hidden'));
         }
         
@@ -1185,7 +1254,7 @@ function updatePageFooter() {
     const currentYear = new Date().getFullYear();
     const pageFooter = document.getElementById('page-footer');
     if (pageFooter) {
-        pageFooter.innerHTML = `© ${currentYear} Agajota | V22 `;
+        pageFooter.innerHTML = `© ${currentYear} Agajota`;
     }
 }
 
@@ -1219,6 +1288,11 @@ function printTable() {
 window.onload=function(){
     initTableDefaultRows();
     updatePageFooter();
+
+    const totalRow = document.getElementById('total-row-element');
+    if (totalRow) {
+        totalRow.classList.add('is-hidden');
+    }
 
     document.addEventListener('keydown',function(e){
         if(e.key==='ArrowUp'||e.key==='ArrowDown'){e.preventDefault();return;}
