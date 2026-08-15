@@ -436,6 +436,90 @@ tr[data-type="simple"] .result-cell {
     box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
+/* Modal Overlay e Conteúdo */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-content {
+    background: white;
+    padding: 28px;
+    border-radius: 16px;
+    max-width: 420px;
+    width: 90%;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    position: relative;
+    text-align: center;
+}
+
+.modal-content h3 {
+    margin-bottom: 8px;
+    color: #0f172a;
+    font-size: 1.3rem;
+}
+
+.modal-content p {
+    color: #64748b;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+}
+
+.modal-close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 22px;
+    cursor: pointer;
+    color: #94a3b8;
+}
+
+.modal-close:hover {
+    color: #0f172a;
+}
+
+.modal-menu-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.modal-option-btn {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+    cursor: pointer;
+    transition: 0.2s;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.modal-option-btn:hover {
+    background: #2563eb;
+    color: white;
+    border-color: #2563eb;
+    transform: translateY(-1px);
+}
+
 .instructions li{
     margin-bottom:10px;
     line-height:1.6;
@@ -572,7 +656,8 @@ tr[data-type="simple"] .result-cell {
     .calculator-header, 
     .action-row, 
     .instructions, 
-    footer {
+    footer,
+    .modal-overlay {
         display: none !important;
     }
 
@@ -696,11 +781,10 @@ tr[data-type="simple"] .result-cell {
             <div class="header-left-group">
                 <h2 class="calculator-title">💰 Simulador de Depósitos (TANB e Compostos)</h2>
             </div>
-            <!-- Grupo da Direita: Botões de adicionar linhas e o Botão de Imprimir no fim (extrema direita) -->
+            <!-- Grupo da Direita: Botão de Sobre e Botão de Imprimir -->
             <div class="header-actions-right">
-                <button class="add-btn" onclick="addRow(false)">Adicionar linha TANB</button>
-                <button class="add-btn add-compound-btn" onclick="addRow(true)">Adicionar linha de juros compostos</button>
-                <button class="print-title-btn" onclick="printTable()" title="Imprimir Resultados">🖨️</button>
+                <button class="print-title-btn" onclick="openAboutModal()" title="Informação">ℹ️</button>
+                <button class="print-title-btn" onclick="printTable()" title="Imprimir simulações">🖨️</button>
             </div>
         </div>
         
@@ -779,10 +863,31 @@ tr[data-type="simple"] .result-cell {
             <ul>
                 <li><strong>Juros Brutos (€):</strong> Valor total ganho sem a retenção na fonte.</li>
                 <li><strong>Retenção na fonte (€):</strong> Em conformidade com a regulamentação fiscal portuguesa, a taxa de retenção é de 28%;</li>
-                <li><strong>Juros Líquidos (€):</strong> Lucro real calculado referente aos dias colocados já livre de impostos;</li>
+                <li><strong>Juros Líquidos (€):</strong> Lucro real calculated referente aos dias colocados já livre de impostos;</li>
                 <li><strong>Juro Líquido por dia (€):</strong> Lucro automaticamente calculado como valor médio ganho por dia já com a retenção na fonte.</li>
                 <li><strong>Ação:</strong> Eliminar a linha de simulação.</li>
             </ul>
+        </div>
+    </div>
+
+    <!-- Janela Modal do "Info" -->
+    <div id="about-modal" class="modal-overlay" onclick="closeAboutModal(event)">
+        <div class="modal-content">
+            <span class="modal-close" onclick="toggleAboutModal(false)">&times;</span>
+            <h3>ℹ️ Suporte:</h3>
+            <p>Selecione uma opção:</p>
+            
+            <div class="modal-menu-options">
+                <button class="modal-option-btn" onclick="sendEmail('Sugestões')">
+                    💡 Sugestões
+                </button>
+                <button class="modal-option-btn" onclick="sendEmail('Reportar Problema')">
+                    🐛 Reportar Problema
+                </button>
+                <button class="modal-option-btn" onclick="sendEmail('Contacto')">
+                    ✉️ Contacto (E-mail)
+                </button>
+            </div>
         </div>
     </div>
 
@@ -792,6 +897,31 @@ tr[data-type="simple"] .result-cell {
     <script>
     let totalsVisible = false;
     let currentTotals = { montante: 0, tanbMed: 0, diasMed: 0, brutos: 0, retencao: 0, liquidos: 0, dia: 0 };
+
+    function openAboutModal() {
+        toggleAboutModal(true);
+    }
+
+    function toggleAboutModal(show) {
+        const modal = document.getElementById('about-modal');
+        if (show) modal.classList.add('active');
+        else modal.classList.remove('active');
+    }
+
+    function closeAboutModal(event) {
+        if (event.target.id === 'about-modal') {
+            toggleAboutModal(false);
+        }
+    }
+
+    function sendEmail(tipo) {
+        const email = "jardimhelder@hotmail.com";
+        const assunto = encodeURIComponent(`[${tipo}] Simulador de Depósitos`);
+        const corpo = encodeURIComponent(`Olá,\n\nEscrevo relativamente à opção "${tipo}":\n\n`);
+        
+        window.location.href = `mailto:${email}?subject=${assunto}&body=${corpo}`;
+        toggleAboutModal(false);
+    }
 
     function showTanbInfo() {
         alert("📊 TANB (Taxa Anual Nominal Bruta):\n\nÉ a taxa de juro de referência para investimentos a um ano, antes de serem retirados os impostos (retenção na fonte de 28%). \n\nChama-se 'nominal' porque reflete o ganho anual teórico sem contar com reinvestimentos ou capitalizações.");
@@ -1081,7 +1211,7 @@ function printTable() {
     const dataHoraFormatada = `${dia}/${mes}/${ano}, ${horas}:${minutos}`;
 
     const footerPrint = document.getElementById('dynamic-print-footer');
-    footerPrint.innerHTML = `© ${ano} Agajota | 💰 Simulador de Depósitos (TANB e Compostos) | Impresso: ${dataHoraFormatada} `;
+    footerPrint.innerHTML = `© ${ano} Agajota | 💰 Simulador de Depósitos (TANB e Compostos) | ${dataHoraFormatada} `;
 
     window.print();
 }
