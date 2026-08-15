@@ -916,8 +916,8 @@ tr[data-type="simple"] .result-cell {
 
     function sendEmail(tipo) {
         const email = "jardimhelder@hotmail.com";
-        const assunto = encodeURIComponent(`[${tipo}] Simulador de Depósitos`);
-        const corpo = encodeURIComponent(`Olá,\n\nEscrevo relativamente à opção "${tipo}":\n\n`);
+        const assunto = encodeURIComponent(`Simulador de Depósitos (TANB e Compostos) [${tipo}] `);
+        const corpo = encodeURIComponent(`OLá,\n\nRelativamente à opção "${tipo}":\n\n"Descreva aqui o que pretende"`);
         
         window.location.href = `mailto:${email}?subject=${assunto}&body=${corpo}`;
         toggleAboutModal(false);
