@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Simulador Financeiro)</title>
+    <title>Simulador Financeiro</title>
 
     <link rel="icon"
           href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💰</text></svg>">
 
     <style>
-       @import url('https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700;800&display=swap');
+       @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root {
-    --primary-blue: #2563eb;
-    --primary-dark: #1d4ed8;
+    --primary-blue: #1e3a8a;
+    --primary-dark: #172554;
     --compound-green: #10b981;
     --compound-dark: #059669;
     --bg-dark-1: #0f172a;
@@ -23,6 +23,8 @@
     --text-muted: #475569;
     --border-color: #e2e8f0;
     --header-height: 110px;
+    --accent-title-dark: #1e3a8a; /* Azul Escuro Suave */
+    --accent-title-green: #2E4F4F; /* Verde Sálvia Escuro */
 }
 
 *{
@@ -76,22 +78,21 @@ footer{
     position: relative;
 }
 
-/* Cabeçalho Modernizado com Azul Claro */
+/* Cabeçalho Relativo com Gradiente Azul Suave e Modernizado na base */
 .calculator-header {
-    background: linear-gradient(135deg, #e0f2fe 0%, #eff6ff 100%);
+    background: linear-gradient(180deg, #1430acd5 10%, #2e5ab8 100%);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     padding: 20px 28px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: sticky;
-    top: 0;
+    position: relative;
     z-index: 100;
     border-top-left-radius: 24px;
     border-top-right-radius: 24px;
-    border-bottom: 1px solid #bfdbfe;
-    box-shadow: 0 4px 20px rgba(37, 99, 235, 0.08);
+    border-bottom: 2px solid #163861;
+    box-shadow: 0 4px 20px rgba(30, 58, 138, 0.2);
 }
 
 .header-left-group {
@@ -103,14 +104,14 @@ footer{
 .header-icon-box {
     width: 48px;
     height: 48px;
-    background: #ffffff;
-    border: 1px solid #bfdbfe;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.5rem;
-    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.12);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .header-badge {
@@ -119,16 +120,16 @@ footer{
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: #2563eb;
-    background: rgba(37, 99, 235, 0.12);
+    color: #93c5fd;
+    background: rgba(255, 255, 255, 0.15);
     padding: 3px 8px;
     border-radius: 6px;
-    border: 1px solid rgba(37, 99, 235, 0.25);
+    border: 1px solid rgba(147, 197, 253, 0.3);
     margin-bottom: 3px;
 }
 
 .calculator-title {
-    color: #1e3a8a;
+    color: #ffffff;
     font-size: 1.35rem;
     font-weight: 700;
     letter-spacing: -0.02em;
@@ -142,9 +143,9 @@ footer{
 }
 
 .header-btn {
-    background: #ffffff;
-    color: #1e3a8a;
-    border: 1px solid #bfdbfe;
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
     width: 44px;
     height: 44px;
     border-radius: 12px;
@@ -154,15 +155,15 @@ footer{
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .header-btn:hover {
-    background: #2563eb;
-    color: #ffffff;
-    border-color: #2563eb;
+    background: #ffffff;
+    color: #32394d;
+    border-color: #ffffff;
     transform: translateY(-2px);
-    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+    box-shadow: 0 4px 14px rgba(255, 255, 255, 0.3);
 }
 
 .header-btn:active {
@@ -170,7 +171,7 @@ footer{
 }
 
 .add-btn{
-    background: linear-gradient(135deg, #3c5894, #3383df);
+    background: linear-gradient(135deg, #2e5bd6, #2563eb);
     color: white;
     border: none;
     padding: 14px 24px;
@@ -186,7 +187,7 @@ footer{
 
 .add-btn:hover{
     transform:translateY(-2px);
-    box-shadow: 0 10px 25px rgba(18, 60, 151, 0.4);
+    box-shadow: 0 10px 25px rgba(35, 40, 54, 0.4);
 }
 
 .add-compound-btn {
@@ -209,21 +210,21 @@ footer{
     white-space: nowrap;       
 }
 
+/* Cabeçalho das Colunas com Gradiente Modernizado (mais escuro em cima e suave/claro em baixo) */
 .calculator-table th{
-    position: sticky;
-    top: var(--header-height, 110px);
+    position: static;
     z-index: 90;
-    background: #e0f2fe; 
-    color: var(--text-dark);      
+    background: linear-gradient(180deg, #0b8ee6 50%, #3b82f6 100%); 
+    color: #ffffff;      
     padding:12px 8px;
     font-weight:700;
     font-size: 14px;
-    border-bottom:2px solid #bae6fd; 
+    border-bottom:2px solid #2563eb; 
     white-space: normal;      
     text-align: center;
     vertical-align: middle;
     line-height: 1.3;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .calculator-table th:nth-child(2), .calculator-table td:nth-child(2),
@@ -256,10 +257,10 @@ footer{
 }
 
 tr[data-type="simple"] {
-    background-color: #eff6ff;
+    background-color: #f8fafc;
 }
 tr[data-type="simple"]:hover {
-    background-color: #dbeafe !important;
+    background-color: #f1f5f9 !important;
 }
 
 .compound-row {
@@ -284,7 +285,7 @@ tr[data-type="simple"]:hover {
 
 .calculator-table input:focus{
     border-color:var(--primary-blue);
-    box-shadow:0 0 0 4px rgba(37,99,235,.15);
+    box-shadow:0 0 0 4px rgba(30,58,138,.15);
     outline:none;
     background: #ffffff;
 }
@@ -295,7 +296,7 @@ tr[data-type="simple"]:hover {
 }
 
 tr[data-type="simple"] .result-cell {
-    color:#1e40af;
+    color:#1e3a8a;
 }
 
 .compound-row .result-cell {
@@ -452,14 +453,14 @@ tr[data-type="simple"] .result-cell {
     background: linear-gradient(90deg, #f1f5f9 0%, #f8fafc 100%);
     padding: 16px 24px;
     border-radius: 14px;
-    border-left: 6px solid var(--primary-blue);
+    border-left: 6px solid var(--accent-title-dark);
     margin-bottom: 25px;
     box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);
 }
 
 .instructions h3{
     margin: 0;
-    color: var(--text-dark);
+    color: var(--accent-title-dark);
     font-size: 1.4rem;
     font-weight: 800;
     letter-spacing: -0.02em;
@@ -492,11 +493,11 @@ tr[data-type="simple"] .result-cell {
 }
 
 .info-explain-btn:hover {
-    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-dark) 100%);
+    background: linear-gradient(135deg, var(--accent-title-dark) 0%, #172554 100%);
     color: #ffffff;
-    border-color: var(--primary-dark);
+    border-color: var(--accent-title-dark);
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
+    box-shadow: 0 6px 16px rgba(30, 58, 138, 0.25);
 }
 
 .modal-overlay {
@@ -529,12 +530,14 @@ tr[data-type="simple"] .result-cell {
 }
 
 .modal-content h3 {
-    margin-bottom: 12px;
-    color: var(--text-dark);
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    color: var(--accent-title-dark);
     font-size: 1.3rem;
     display: flex;
     align-items: center;
     gap: 8px;
+    border-bottom: 2px solid var(--accent-title-dark);
 }
 
 .modal-content p {
@@ -580,9 +583,9 @@ tr[data-type="simple"] .result-cell {
 }
 
 .modal-option-btn:hover {
-    background: var(--primary-blue);
+    background: var(--accent-title-dark);
     color: white;
-    border-color: var(--primary-blue);
+    border-color: var(--accent-title-dark);
     transform: translateY(-1px);
 }
 
@@ -596,7 +599,7 @@ tr[data-type="simple"] .result-cell {
 }
 
 .modal-footer .version-highlight {
-    color: var(--primary-blue);
+    color: var(--accent-title-dark);
     font-weight: 800;
     background: #eff6ff;
     padding: 3px 8px;
@@ -778,8 +781,8 @@ tr[data-type="simple"] .result-cell {
         position: static !important;
         padding: 10px 6px !important;
         font-size: 11px !important;
-        background: #e2e8f0 !important;
-        color: #000 !important;
+        background: linear-gradient(180deg, #1e3a8a 0%, #3b82f6 100%) !important;
+        color: #ffffff !important;
         line-height: 1.3 !important;
         border-bottom: 2px solid #000 !important;
         -webkit-print-color-adjust: exact;
@@ -796,7 +799,7 @@ tr[data-type="simple"] .result-cell {
     }
 
     tr[data-type="simple"] {
-        background-color: #eff6ff !important;
+        background-color: #f8fafc !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
     }
@@ -868,7 +871,6 @@ tr[data-type="simple"] .result-cell {
     </div>
 
     <div class="tanb-calculator">
-        <!-- Cabeçalho Modernizado em Azul Claro -->
         <div class="calculator-header">
             <div class="header-left-group">
                 <div class="header-icon-box">💰</div>
@@ -902,7 +904,6 @@ tr[data-type="simple"] .result-cell {
             </tbody>
             
             <tfoot>
-                <!-- Linha de Totais -->
                 <tr class="total-row" id="total-row-element">
                     <td id="toggle-button-cell">
                         <button class="toggle-total-btn" id="toggle-btn-element" onclick="toggleTotals()">Mostrar total</button>
@@ -916,7 +917,6 @@ tr[data-type="simple"] .result-cell {
                     <td class="total-data total-hidden" id="total-dia"></td>
                     <td class="total-data total-hidden" id="total-blank-last"></td>
                 </tr>
-                <!-- Linha com os Botões de Ação Centralizados -->
                 <tr class="action-row">
                     <td></td>
                     <td colspan="7">
@@ -933,7 +933,6 @@ tr[data-type="simple"] .result-cell {
         </table>
  
         <div class="instructions">
-            <!-- Botões de informação -->
             <div class="info-buttons-container">
                 <button class="info-explain-btn" onclick="showTanbInfo()">💡 O que é a TANB?</button>
                 <button class="info-explain-btn" onclick="showCompoundInfo()">📈 O que são Juros Compostos?</button>
@@ -952,7 +951,7 @@ tr[data-type="simple"] .result-cell {
             <hr>
             
             <ul>
-                <li><strong>Linhas TANB Simples (Padrão Azul):</strong> O cálculo dos juros simples baseia-se na convenção do <strong>ano comercial de 360 dias</strong>.</li>
+                <li><strong>Linhas TANB Simples (Padrão Cinzento/Azul):</strong> O cálculo dos juros simples baseia-se na convenção do <strong>ano comercial de 360 dias</strong>.</li>
                 <li><strong>Linhas Verdes (Compostas):</strong> Representam investimentos onde o cálculo utiliza o <strong>ano civil de 365 dias</strong>. Os juros são capitalizados e o imposto (28%) é deduzido diariamente, reinvestindo o ganho líquido de forma contínua.</li>
             </ul>
             
@@ -962,7 +961,7 @@ tr[data-type="simple"] .result-cell {
                 <li><strong>Juros Brutos (€):</strong> Valor total ganho sem a retenção na fonte.</li>
                 <li><strong>Retenção na fonte (€):</strong> Em conformidade com a regulamentação fiscal portuguesa, a taxa de retenção é de 28%;</li>
                 <li><strong>Juros Líquidos (€):</strong> Lucro real calculado referente aos dias colocados já livre de impostos;</li>
-                <li><strong>Juro Líquido por dia (€):</strong> Lucro automaticamente calculated como valor médio ganho por dia já com a retenção na fonte.</li>
+                <li><strong>Juro Líquido por dia (€):</strong> Lucro automaticamente calculado como valor médio ganho por dia já com a retenção na fonte.</li>
                 <li><strong>Ação:</strong> Eliminar a linha de simulação.</li>
             </ul>
         </div>
@@ -988,7 +987,7 @@ tr[data-type="simple"] .result-cell {
         </div>
     </div>
 
-    <!-- Janela Modal do "Info" / Suporte -->
+    <!-- Janela Modal de Suporte -->
     <div id="about-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="about-modal-title" onclick="closeAboutModal(event)">
         <div class="modal-content" style="text-align: center;">
             <span class="modal-close" onclick="toggleAboutModal(false)">&times;</span>
@@ -1018,6 +1017,18 @@ tr[data-type="simple"] .result-cell {
     <script>
     let totalsVisible = false;
     let currentTotals = { montante: 0, tanbMed: 0, diasMed: 0, brutos: 0, retencao: 0, liquidos: 0, dia: 0 };
+
+    /* Converte strings PT (com espaços, pontos de milhar e vírgulas) num float de forma segura */
+    function parsePtNumber(val) {
+        if (!val) return 0;
+        let clean = val.toString().replace(/[€%\s\u00a0\u202f]/g, '');
+        if (clean.includes('.') && clean.includes(',')) {
+            clean = clean.replace(/\./g, '').replace(',', '.');
+        } else if (clean.includes(',')) {
+            clean = clean.replace(',', '.');
+        }
+        return parseFloat(clean) || 0;
+    }
 
     function updateHeaderOffset() {
         const header = document.querySelector('.calculator-header');
@@ -1069,7 +1080,7 @@ tr[data-type="simple"] .result-cell {
 
     function sendEmail(tipo) {
         const email = "jardimhelder@hotmail.com";
-        const assunto = encodeURIComponent(`Simulador Financeiro (TANB e Juros Compostos) - [${tipo}] `);
+        const assunto = encodeURIComponent(`Simulador Financeiro (TANB e Juros Compostos) - [${tipo}]`);
         const corpo = encodeURIComponent(`Olá,\n\nRelativamente à opção "${tipo}":\n\n"Descreva aqui o que pretende"`);
         
         window.location.href = `mailto:${email}?subject=${assunto}&body=${corpo}`;
@@ -1082,12 +1093,8 @@ tr[data-type="simple"] .result-cell {
         
         const isCompound = row.getAttribute('data-type') === 'compound';
         
-        const mtxt = row.cells[1].querySelector('input').value.replace(/€/g,'').replace(/\s/g,'').replace(',','.'); 
-        const montante = parseFloat(mtxt) || 0;
-        
-        const ptxt = row.cells[2].querySelector('input').value.replace(/%/g,'').replace(/\s/g,'').replace(',','.'); 
-        const tanb = parseFloat(ptxt) || 0;
-        
+        const montante = parsePtNumber(row.cells[1].querySelector('input').value);
+        const tanb = parsePtNumber(row.cells[2].querySelector('input').value);
         const dias = parseInt(row.cells[3].querySelector('input').value) || 0;
         
         if (montante === 0 || tanb === 0 || dias === 0) {
@@ -1142,8 +1149,8 @@ tr[data-type="simple"] .result-cell {
 
         newRow.innerHTML = `
             <td class="row-index"></td>
-            <td><input type="text" placeholder="10 000 €" inputmode="decimal" min="0" step="0.01" oninput="handleLiveInput(this)" onfocus="editMoney(this)" onblur="formatMoney(this)"></td>
-            <td><input type="text" placeholder="%" inputmode="decimal" min="0" step="0.01" oninput="handleLiveInput(this)" onfocus="editPercent(this)" onblur="formatPercent(this)"></td>
+            <td><input type="text" placeholder="10 000 €" inputmode="decimal" oninput="handleLiveInput(this)" onfocus="editMoney(this)" onblur="formatMoney(this)"></td>
+            <td><input type="text" placeholder="%" inputmode="decimal" oninput="handleLiveInput(this)" onfocus="editPercent(this)" onblur="formatPercent(this)"></td>
             <td><input type="number" placeholder="Dias" min="1" step="1" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g,''); calculateRow(this)" onfocus="this.select()"></td>
             <td class="result-cell">---</td>
             <td class="result-cell">---</td>
@@ -1160,7 +1167,6 @@ tr[data-type="simple"] .result-cell {
     }
 
     function handleLiveInput(input) {
-        input.value = input.value.replace(',', '.');
         calculateRow(input);
     }
 
@@ -1183,7 +1189,7 @@ tr[data-type="simple"] .result-cell {
             if (isCompound) {
                 row.cells[0].innerHTML = (index + 1) + '<br><small style="font-size:9px;color:#059669;font-weight:bold;">Comp.</small>';
             } else {
-                row.cells[0].innerHTML = (index + 1) + '<br><small style="font-size:9px;color:#2563eb;font-weight:bold;">TANB</small>';
+                row.cells[0].innerHTML = (index + 1) + '<br><small style="font-size:9px;color:#1e3a8a;font-weight:bold;">TANB</small>';
             }
         });
     }
@@ -1216,30 +1222,41 @@ tr[data-type="simple"] .result-cell {
         let linhasComDadosValidos = 0;
 
         rows.forEach(row => {
-            const mtxt = row.cells[1].querySelector('input').value.replace(/€/g,'').replace(/\s/g,'').replace(',','.');
-            const montante = parseFloat(mtxt) || 0;
-            totalM += montante;
-            
-            const ptxt = row.cells[2].querySelector('input').value.replace(/%/g,'').replace(/\s/g,'').replace(',','.');
-            const tanb = parseFloat(ptxt) || 0;
-
+            const isCompound = row.getAttribute('data-type') === 'compound';
+            const montante = parsePtNumber(row.cells[1].querySelector('input').value);
+            const tanb = parsePtNumber(row.cells[2].querySelector('input').value);
             const dias = parseInt(row.cells[3].querySelector('input').value) || 0;
-            
-            const bVal = row.cells[4].textContent;
-            const rVal = row.cells[5].textContent;
-            const lVal = row.cells[6].textContent;
-            const dVal = row.cells[7].textContent;
+
+            totalM += montante;
 
             if (montante > 0 && tanb > 0 && dias > 0) {
                 somaProdutosTanb += (montante * tanb);
                 somaProdutosDias += (montante * dias);
                 linhasComDadosValidos++;
-            }
 
-            totalB += (bVal !== "---") ? parseFloat(bVal.replace(/€/g,'').replace(/\s/g,'')) || 0 : 0;
-            totalR += (rVal !== "---") ? parseFloat(rVal.replace(/€/g,'').replace(/\s/g,'')) || 0 : 0;
-            totalL += (lVal !== "---") ? parseFloat(lVal.replace(/€/g,'').replace(/\s/g,'')) || 0 : 0;
-            totalD += (dVal !== "---") ? parseFloat(dVal.replace(/€/g,'').replace(/\s/g,'')) || 0 : 0;
+                const TAXA_RETENCAO = 0.28;
+                let jurosBrutos = 0, retencao = 0, valorReceber = 0, ganhoDia = 0;
+
+                if (isCompound) {
+                    const i_diario = (tanb / 100) / 365;
+                    const montanteFinal = montante * Math.pow(1 + i_diario * (1 - TAXA_RETENCAO), dias);
+                    valorReceber = montanteFinal - montante;
+                    jurosBrutos = valorReceber / (1 - TAXA_RETENCAO);
+                    retencao = jurosBrutos * TAXA_RETENCAO;
+                    ganhoDia = valorReceber / dias;
+                } else {
+                    const BASE_ANO = 360; 
+                    jurosBrutos = montante * (tanb / 100) * (dias / BASE_ANO);
+                    retencao = jurosBrutos * TAXA_RETENCAO;
+                    valorReceber = jurosBrutos - retencao;
+                    ganhoDia = valorReceber / dias;
+                }
+
+                totalB += jurosBrutos;
+                totalR += retencao;
+                totalL += valorReceber;
+                totalD += ganhoDia;
+            }
         });
 
         let tanbPonderada = (totalM > 0 && linhasComDadosValidos > 0) ? (somaProdutosTanb / totalM) : 0;
@@ -1341,39 +1358,39 @@ tr[data-type="simple"] .result-cell {
             return false;
         }
     }
-        
+
 function formatMoney(input){
- let v=input.value.replace(/€/g,'').replace(/\s/g,'').replace(',','.');
- if(v==='') {
-     input.value = '';
-     calculateRow(input);
-     return;
- }
- let n=parseFloat(v); if(isNaN(n)) return;
- input.value=n.toLocaleString('pt-PT',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
- calculateRow(input);
+    let n = parsePtNumber(input.value);
+    if(input.value.trim() === '' || isNaN(n) || n === 0) {
+        if (input.value.trim() === '') input.value = '';
+        calculateRow(input);
+        return;
+    }
+    input.value = n.toLocaleString('pt-PT',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' €';
+    calculateRow(input);
 }
 
 function editMoney(input){
- input.value=input.value.replace(/€/g,'').replace(/\s/g,'').replace(',','.');
- input.select();
+    let n = parsePtNumber(input.value);
+    input.value = n > 0 ? n.toString() : '';
+    input.select();
 }
 
 function formatPercent(input){
- let v=input.value.replace(/%/g,'').replace(/\s/g,'').replace(',','.');
- if(v==='') {
-     input.value = '';
-     calculateRow(input);
-     return;
- }
- let n=parseFloat(v); if(isNaN(n)) return;
- input.value=n.toLocaleString('pt-PT',{minimumFractionDigits:2,maximumFractionDigits:2})+' %';
- calculateRow(input);
+    let n = parsePtNumber(input.value);
+    if(input.value.trim() === '' || isNaN(n) || n === 0) {
+        if (input.value.trim() === '') input.value = '';
+        calculateRow(input);
+        return;
+    }
+    input.value = n.toLocaleString('pt-PT',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' %';
+    calculateRow(input);
 }
 
 function editPercent(input){
- input.value=input.value.replace(/%/g,'').replace(/\s/g,'').replace(',','.');
- input.select();
+    let n = parsePtNumber(input.value);
+    input.value = n > 0 ? n.toString() : '';
+    input.select();
 }
 
 function updatePageFooter() {
@@ -1406,14 +1423,14 @@ function printTable() {
     const dataHoraFormatada = `${dia}/${mes}/${ano}, ${horas}:${minutos}`;
 
     const footerPrint = document.getElementById('dynamic-print-footer');
-    footerPrint.innerHTML = `© ${ano} Agajota | 💰 Simulador de Depósitos (TANB e Compostos) | ${dataHoraFormatada} `;
+    footerPrint.innerHTML = `© ${ano} Agajota | 💰 Simulador de Depósitos (TANB e Compostos) | ${dataHoraFormatada}`;
 
     window.print();
 }
 
 window.addEventListener('resize', updateHeaderOffset);
 
-window.onload=function(){
+window.onload = function(){
     updateHeaderOffset();
 
     if (!loadStateFromLocalStorage()) {
@@ -1435,26 +1452,29 @@ window.onload=function(){
         }
     });
 
-    document.addEventListener('keydown',function(e){
-        if(e.key==='ArrowUp'||e.key==='ArrowDown'){e.preventDefault();return;}
-        if(e.key!=='Enter')return;
+    document.addEventListener('keydown', function(e){
+        if (e.target.tagName === 'INPUT' && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
+            e.preventDefault();
+            return;
+        }
+        if (e.key !== 'Enter') return;
         
-        const input=e.target;
-        if(input.tagName!=='INPUT')return;
+        const input = e.target;
+        if (input.tagName !== 'INPUT') return;
         
-        const row=input.closest('tr');
-        if(row.parentElement.tagName === 'TFOOT') return;
+        const row = input.closest('tr');
+        if (!row || row.parentElement.tagName === 'TFOOT') return;
 
-        const inputs=[...row.querySelectorAll('input')];
-        let idx=inputs.indexOf(input);
+        const inputs = [...row.querySelectorAll('input')];
+        let idx = inputs.indexOf(input);
         
-        if(idx === 2) { 
+        if (idx === 2) { 
             e.preventDefault();
             input.blur();
             return;
         }
         
-        if(idx < inputs.length - 1){
+        if (idx < inputs.length - 1){
             e.preventDefault();
             inputs[idx+1].focus();
             inputs[idx+1].select();
@@ -1463,9 +1483,7 @@ window.onload=function(){
 };
 </script>
 
-<footer id="page-footer">
-  <!-- O ano civil é inserido automaticamente via JavaScript -->
-</footer>
+<footer id="page-footer"></footer>
 
 </body>
 </html>
