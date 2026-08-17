@@ -866,8 +866,8 @@ tr[data-type="simple"] .result-cell {
 <body>
 
     <div class="print-only-header">
-        <h1>Simulador de Depósitos a Prazo (TANB & Juros Compostos)</h1>
-        <p>Relatório de Simulações Financeiras</p>
+        <h1>Simulador Financeiro (TANB & Juros Compostos)</h1>
+        <p>Relatório de Simulações</p>
     </div>
 
     <div class="tanb-calculator">
@@ -1423,7 +1423,7 @@ function printTable() {
     const dataHoraFormatada = `${dia}/${mes}/${ano}, ${horas}:${minutos}`;
 
     const footerPrint = document.getElementById('dynamic-print-footer');
-    footerPrint.innerHTML = `© ${ano} Agajota | 💰 Simulador de Depósitos (TANB e Compostos) | ${dataHoraFormatada}`;
+    footerPrint.innerHTML = `© ${ano} Agajota | 💰 Simulador Financeiro | ${dataHoraFormatada}`;
 
     window.print();
 }
