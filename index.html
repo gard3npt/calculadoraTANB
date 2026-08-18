@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Simulador Financeiro</title>
+    <title>Simulador de Juros</title>
 
     <link rel="icon"
           href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💰</text></svg>">
@@ -866,7 +866,7 @@ tr[data-type="simple"] .result-cell {
 <body>
 
     <div class="print-only-header">
-        <h1>Simulador Financeiro (TANB & Juros Compostos)</h1>
+        <h1>Simulador de Juros (TANB & Juros Compostos)</h1>
         <p>Relatório de Simulações</p>
     </div>
 
@@ -875,7 +875,7 @@ tr[data-type="simple"] .result-cell {
             <div class="header-left-group">
                 <div class="header-icon-box">💰</div>
                 <div>
-                    <span class="header-badge">Simulador Financeiro</span>
+                    <span class="header-badge">Simulador de juros</span>
                     <h2 class="calculator-title">TANB & Juros Compostos</h2>
                 </div>
             </div>
@@ -939,7 +939,7 @@ tr[data-type="simple"] .result-cell {
             </div>
 
             <div class="instructions-header">
-                <h3>📖 Como usar o Simulador Financeiro:</h3>
+                <h3>📖 Como usar o Simulador de Juros:</h3>
             </div>
             
             <ul>
@@ -1080,7 +1080,7 @@ tr[data-type="simple"] .result-cell {
 
     function sendEmail(tipo) {
         const email = "jardimhelder@hotmail.com";
-        const assunto = encodeURIComponent(`Simulador Financeiro (TANB e Juros Compostos) - [${tipo}]`);
+        const assunto = encodeURIComponent(`Simulador de Juros (TANB & Juros Compostos) - [${tipo}]`);
         const corpo = encodeURIComponent(`Olá,\n\nRelativamente à opção "${tipo}":\n\n"Descreva aqui o que pretende"`);
         
         window.location.href = `mailto:${email}?subject=${assunto}&body=${corpo}`;
@@ -1423,7 +1423,7 @@ function printTable() {
     const dataHoraFormatada = `${dia}/${mes}/${ano}, ${horas}:${minutos}`;
 
     const footerPrint = document.getElementById('dynamic-print-footer');
-    footerPrint.innerHTML = `© ${ano} Agajota | 💰 Simulador Financeiro | ${dataHoraFormatada}`;
+    footerPrint.innerHTML = `© ${ano} Agajota | 💰 Simulador de Juros | ${dataHoraFormatada}`;
 
     window.print();
 }
